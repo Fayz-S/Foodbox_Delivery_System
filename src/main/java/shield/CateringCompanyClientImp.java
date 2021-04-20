@@ -89,7 +89,7 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
 
       // unmarshal response
       Type listType = new TypeToken<List<provider>>() {} .getType();
-      providerNames = new Gson().fromJson(response, listType);
+      providerList = new Gson().fromJson(response, listType);
 
       // gather required fields
       for (provider b : providerList) {
@@ -99,7 +99,7 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
       e.printStackTrace();
     }
 
-    if (providerNames.contains(this.name) == false){
+    if (!providerNames.contains(this.name)){
       success = false;
     }
 

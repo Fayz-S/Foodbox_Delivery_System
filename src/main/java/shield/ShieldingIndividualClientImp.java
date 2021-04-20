@@ -21,6 +21,10 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
   private String phoneNumber;
   private String dietaryInfo;
   private boolean registered;
+  private String foodboxChoice;
+  private String orderStatus;
+  private String closestCatering;
+  private String closestCateringPostcode;
 
 
   // internal field only used for transmission purposes
@@ -67,6 +71,10 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     this.dietaryInfo = null;
     this.CHI = null;
     this.registered = false;
+    this.foodboxChoice = null;
+    this.orderStatus = null;
+    this.closestCatering = null;
+    this.closestCateringPostcode = null;
   }
 
 
@@ -137,6 +145,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
   @Override
   public boolean editOrder(int orderNumber) {
+    String request = "/placeOrder?order_id=orderNumber";
     return false;
   }
 
@@ -163,7 +172,23 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
   @Override
   public boolean requestOrderStatus(int orderNumber) {
-    return false;
+    String request = "/requestStatus?order_id=orderNumber";
+    String response = "";
+
+    try {
+      // perform request
+      response = ClientIO.doGETRequest(endpoint + request);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    if (response.equals("-1")) {
+      return false;
+    }
+    else{
+      this.orderStatus = response;
+      return true;
+    }
   }
 
   // **UPDATE**
@@ -221,7 +246,24 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
   @Override
   public int getFoodBoxNumber() {
-    return 0;
+    String request = "/showFoodBox";
+    List<MessagingFoodBox> responseBoxes = new ArrayList<MessagingFoodBox>();
+    int foodBoxNumber = 0;
+
+    try {
+      // perform request
+      String response = ClientIO.doGETRequest(endpoint + request);
+
+      // unmarshal response
+      Type listType = new TypeToken<List<MessagingFoodBox>>() {}.getType();
+      responseBoxes = new Gson().fromJson(response, listType);
+
+      foodBoxNumber = responseBoxes.size();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return foodBoxNumber;
   }
 
   @Override
@@ -282,7 +324,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
 
   @Override
-  public Collection<Integer> getItemIdsForFoodBox(int foodboxId) {
+  public Collection<Integer> getItemIdsForFoodBox(int foodBoxId) {
     String request = "/showFoodBox?orderOption=catering&dietaryPreference=none";
     List<Integer> listID = new ArrayList<>();
     List<MessagingFoodBox2> responseBoxes = new ArrayList<MessagingFoodBox2>();
@@ -297,7 +339,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
       // gather required fields
       for (MessagingFoodBox2 b : responseBoxes) {
-        if(foodboxId == Integer.parseInt(b.id) ){
+        if(foodBoxId == Integer.parseInt(b.id) ){
           for (foodboxItem x : b.contents){
             listID.add( Integer.parseInt(x.id) );
           };
@@ -343,12 +385,45 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
   @Override
   public int getItemQuantityForFoodBox(int itemId, int foodBoxId) {
-    return 0;
+    String request = "/showFoodBox?orderOption=catering&dietaryPreference=none";
+    List<Integer> foodBoxQuantities = new ArrayList<>();
+    int quantity;
+    List<MessagingFoodBox2> responseBoxes = new ArrayList<MessagingFoodBox2>();
+
+    try {
+      // perform request
+      String response = ClientIO.doGETRequest(endpoint + request);
+
+      // unmarshal response
+      Type listType = new TypeToken<List<MessagingFoodBox2>>() {
+      }.getType();
+      responseBoxes = new Gson().fromJson(response, listType);
+
+      // gather required fields
+      for (MessagingFoodBox2 b : responseBoxes) {
+        if (foodBoxId == Integer.parseInt(b.id)) {
+          for (foodboxItem x : b.contents) {
+            if (itemId == Integer.parseInt(x.id)) {
+              foodBoxQuantities.add(Integer.parseInt(x.quantity));
+            }
+          }
+          ;
+        }
+        ;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    quantity = foodBoxQuantities.stream().mapToInt(Integer::intValue).sum();
+
+    return quantity;
   }
 
   @Override
   public boolean pickFoodBox(int foodBoxId) {
-    return false;
+    this.foodboxChoice = String.valueOf(foodBoxId);
+    return true;
   }
 
   @Override
