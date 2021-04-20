@@ -6,32 +6,36 @@ package shield;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CateringCompanyClientImp implements CateringCompanyClient {
   private String endpoint;
+  private String name;
+  private String postcode;
+
 
   // internal field only used for transmission purposes
     final class provider {
       // a field marked as transient is skipped in marshalling/unmarshalling
       transient List<String> details;
-
       String providerID;
       String name;
       String postcode;
     }
+
   public CateringCompanyClientImp(String endpoint) {
     this.endpoint = endpoint;
+    this.name = null;
+    this.postcode = null;
   }
 
 
   @Override
   public boolean registerCateringCompany(String newName, String newPostcode) {
     String request = "/registerCateringCompany?business_name=newName&postcode=newPostcode";
-    boolean success = true;
+    boolean success;
     String response = null;
 
     try {
@@ -43,6 +47,8 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
 
     if (response == "already registered" || response == "registered new"){
       success = true;
+      this.name = newName;
+      this.postcode = newPostcode;
 
     }
     else{
@@ -107,6 +113,6 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
 
   @Override
   public String getPostCode() {
-    return this.postcode();
+    return this.postcode;
   }
 }

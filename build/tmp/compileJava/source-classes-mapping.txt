@@ -4,8 +4,20 @@ shield/SupermarketClientEndpoints.java
  shield.SupermarketClientEndpoints
 shield/ShieldingIndividualClientImp.java
  shield.ShieldingIndividualClientImp
+ shield.ShieldingIndividualClientImp$1
+ shield.ShieldingIndividualClientImp$2
+ shield.ShieldingIndividualClientImp$3
+ shield.ShieldingIndividualClientImp$4
+ shield.ShieldingIndividualClientImp$5
+ shield.ShieldingIndividualClientImp$6
+ shield.ShieldingIndividualClientImp$MessagingFoodBox
+ shield.ShieldingIndividualClientImp$MessagingFoodBox2
+ shield.ShieldingIndividualClientImp$foodboxItem
+ shield.ShieldingIndividualClientImp$registeredUser
 shield/CateringCompanyClientImp.java
  shield.CateringCompanyClientImp
+ shield.CateringCompanyClientImp$1
+ shield.CateringCompanyClientImp$provider
 shield/ClientIO.java
  shield.ClientIO
 shield/CateringCompanyClient.java
@@ -21,6 +33,9 @@ shield/CateringCompanyClientEndpoints.java
 shield/DummyShieldingIndividualClientImp.java
  shield.DummyShieldingIndividualClientImp
  shield.DummyShieldingIndividualClientImp$1
+ shield.DummyShieldingIndividualClientImp$2
  shield.DummyShieldingIndividualClientImp$MessagingFoodBox
+ shield.DummyShieldingIndividualClientImp$registeredUser
 shield/SupermarketClientImp.java
  shield.SupermarketClientImp
+ shield.SupermarketClientImp$provider
