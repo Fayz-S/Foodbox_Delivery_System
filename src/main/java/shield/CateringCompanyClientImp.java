@@ -14,16 +14,17 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
   private String endpoint;
   private String name;
   private String postcode;
+  private boolean registered = false;
 
 
   // internal field only used for transmission purposes
-    final class provider {
-      // a field marked as transient is skipped in marshalling/unmarshalling
-      transient List<String> details;
-      String providerID;
-      String name;
-      String postcode;
-    }
+  final class provider {
+    // a field marked as transient is skipped in marshalling/unmarshalling
+    transient List<String> details;
+    String providerID;
+    String name;
+    String postcode;
+  }
 
   public CateringCompanyClientImp(String endpoint) {
     this.endpoint = endpoint;
@@ -45,13 +46,13 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
     }
 
 
-    if (response == "already registered" || response == "registered new"){
+    if (response == "already registered" || response == "registered new") {
       success = true;
       this.name = newName;
       this.postcode = newPostcode;
+      this.registered = true;
 
-    }
-    else{
+    } else {
       success = false;
 
     }
@@ -59,51 +60,25 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
   }
 
   @Override
-  public boolean updateOrderStatus (int orderNumber, String newStatus) {
+  public boolean updateOrderStatus(int orderNumber, String newStatus) {
     String request = "/updateOrderStatus?order_id=orderNumber&newStatus=newStatus";
     boolean success = true;
     String response = null;
 
-    try{
-      response = ClientIO.doPOSTRequest(endpoint, request);
-    }catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    if (response == "False"){
-      success = false;
-    }
-  return success;
-  }
-
-  @Override //not Sure about parameters
-  public boolean isRegistered () {
-    String request = "/getCaterers";
-    Boolean success = true;
-    List<provider> providerList = new ArrayList<provider>();
-    List<String> providerNames = new ArrayList<String>();
-
     try {
-      // perform request
-      String response = ClientIO.doGETRequest(endpoint + request);
-
-      // unmarshal response
-      Type listType = new TypeToken<List<provider>>() {} .getType();
-      providerList = new Gson().fromJson(response, listType);
-
-      // gather required fields
-      for (provider b : providerList) {
-        providerNames.add(b.name);
+      response = ClientIO.doPOSTRequest(endpoint, request);
+      if (response == "False") {
+        success = false;
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    if (!providerNames.contains(this.name)){
-      success = false;
-    }
-
     return success;
+  }
+
+  @Override //not Sure about parameters
+  public boolean isRegistered() {
+    return this.registered;
   }
 
   @Override

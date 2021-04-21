@@ -1,0 +1,128 @@
+[
+        {
+          "id":1,
+          "diet":"none",
+          "delivered_by":"catering",
+          "name":"box a",
+          "contents": [
+            {
+              "id":1,
+              "name":"cucumbers",
+              "quantity":1
+            },
+            {
+              "id":2,
+              "name":"tomatoes",
+              "quantity":2
+            },
+            {
+              "id":6,
+              "name":"pork",
+              "quantity":1
+            }
+            ]
+        },
+
+        {
+          "id":2,
+          "name":"box b",
+          "diet":"pollotarian",
+          "delivered_by":"catering",
+          "contents": [
+            {
+              "id":1,
+              "name":"cucumbers",
+              "quantity":2
+            },
+            {
+              "id":3,
+              "name":"onions",
+              "quantity":1
+            },
+            {
+              "id":7,
+              "name":"chicken",
+              "quantity":1
+            }
+            ]
+        },
+
+        {
+          "id":3,
+          "name":"box c",
+          "delivered_by":"catering",
+          "diet":"none",
+          "contents": [
+            {
+              "id":3,
+              "name":"onions",
+              "quantity":1
+            },
+            {
+              "id":4,
+              "name":"carrots",
+              "quantity":2
+            },
+            {
+              "id":8,
+              "name":"bacon",
+              "quantity":1
+            }
+            ]
+        },
+
+        {
+          "id":4,
+          "name":"box d",
+          "delivered_by":"catering",
+          "diet":"none",
+          "contents": [
+            {
+              "id":13,
+              "name":"cabbage",
+              "quantity":1
+            },
+            {
+              "id":11,
+              "name":"avocado",
+              "quantity":1
+            },
+            {
+              "id":8,
+              "name":"bacon",
+              "quantity":1
+            },
+            {
+              "id":9,
+              "name":"oranges",
+              "quantity":1
+            }
+            ]
+        },
+
+
+        {
+          "id":5,
+          "diet":"vegan",
+          "delivered_by":"catering",
+          "name":"box e",
+          "contents": [
+            {
+              "id":9,
+              "name":"oranges",
+              "quantity":1
+            },
+            {
+              "id":11,
+              "name":"avocado",
+              "quantity":1
+            },
+            {
+              "id":12,
+              "name":"mango",
+              "quantity":1
+            }
+            ]
+        }
+
+]
