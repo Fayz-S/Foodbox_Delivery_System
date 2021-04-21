@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="03466323-c485-49c5-9a10-837bb4476ad0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../README (2).md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../food_boxes.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../orders.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../providers.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shielding_individuals.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../stock.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supermarket_orders.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supermarkets.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\fayzs\Documents\CompSci\SEPP\CW3\SEPP-CW3\src\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1rOOoTMaEIAQJtE6l0e5mikz4NF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="03466323-c485-49c5-9a10-837bb4476ad0" name="Default Changelist" comment="" />
+      <created>1618843843862</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1618843843862</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="233" y="0" key="#Notifications" timestamp="1618844867231">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="233" y="0" key="#Notifications/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618844867231" />
+    <state x="166" y="0" key="#Project_Structure" timestamp="1618844660417">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="166" y="0" key="#Project_Structure/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618844660417" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618844685503">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618844685503" />
+    <state x="490" y="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1618845321134">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="490" y="230" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618845321134" />
+    <state x="421" y="58" key="FileChooserDialogImpl" timestamp="1618846998380">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="421" y="58" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618846998380" />
+    <state x="316" y="40" key="NewModule_or_Project.wizard" timestamp="1618847000154">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="316" y="40" key="NewModule_or_Project.wizard/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618847000154" />
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1618844730115">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="337" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1618844730115" />
+  </component>
+</project>

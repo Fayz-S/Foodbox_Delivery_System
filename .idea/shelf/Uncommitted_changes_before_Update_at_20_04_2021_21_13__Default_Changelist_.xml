@@ -1,0 +1,29 @@
+<changelist name="Uncommitted_changes_before_Update_at_20_04_2021_21_13_[Default_Changelist]" date="1618949605326" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_04_2021_21_13_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20/04/2021 21:13 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="build/test-results/test/binary/output.bin.idx" />
+    <option name="AFTER_PATH" value="build/test-results/test/binary/output.bin.idx" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_04_2021_21_13_[Default_Changelist]/output.bin.idx" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="server.py" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="build/libs/uoe-sepp2021-coursework3-skeleton.jar" />
+    <option name="AFTER_PATH" value="build/libs/uoe-sepp2021-coursework3-skeleton.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_04_2021_21_13_[Default_Changelist]/uoe-sepp2021-coursework3-skeleton.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="build/test-results/test/binary/results.bin" />
+    <option name="AFTER_PATH" value="build/test-results/test/binary/results.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_04_2021_21_13_[Default_Changelist]/results.bin" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="build/test-results/test/binary/output.bin" />
+    <option name="AFTER_PATH" value="build/test-results/test/binary/output.bin" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_04_2021_21_13_[Default_Changelist]/output.bin" />
+  </binary>
+</changelist>

@@ -1,0 +1,870 @@
+Index: src/main/java/shield/DummyShieldingIndividualClientImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/**\r\n * Dummy example of a potential application for a shielding individual.\r\n *\r\n * This is mostly to show an example of the JSON marshalling and unmarshalling\r\n * machineray.\r\n *\r\n * @author\r\n *\r\n */\r\n\r\npackage shield;\r\n\r\nimport java.util.Collection;\r\nimport java.util.List;\r\nimport java.util.ArrayList;\r\nimport java.lang.reflect.Type;\r\n\r\nimport com.google.gson.Gson;\r\nimport com.google.gson.reflect.TypeToken;\r\n\r\npublic class DummyShieldingIndividualClientImp implements ShieldingIndividualClient {\r\n  /**\r\n   * The string representation of the base server endpoint (a HTTP address)\r\n   */\r\n  private String endpoint;\r\n\r\n  // internal field only used for transmission purposes\r\n  final class MessagingFoodBox {\r\n    // a field marked as transient is skipped in marshalling/unmarshalling\r\n    transient List<String> contents;\r\n\r\n    String delivered_by;\r\n    String diet;\r\n    String id;\r\n    String name;\r\n  }\r\n\r\n  public DummyShieldingIndividualClientImp(String endpoint) {\r\n    this.endpoint = endpoint;\r\n  }\r\n\r\n  @Override\r\n  public boolean registerShieldingIndividual(String CHI) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public Collection<String> showFoodBoxes(String dietaryPreference) {\r\n    // construct the endpoint request\r\n    String request = \"/showFoodBox?orderOption=catering&dietaryPreference=none\";\r\n\r\n    // setup the response recepient\r\n    List<MessagingFoodBox> responseBoxes = new ArrayList<MessagingFoodBox>();\r\n\r\n    List<String> boxIds = new ArrayList<String>();\r\n\r\n    try {\r\n      // perform request\r\n      String response = ClientIO.doGETRequest(endpoint + request);\r\n\r\n      // unmarshal response\r\n      Type listType = new TypeToken<List<MessagingFoodBox>>() {} .getType();\r\n      responseBoxes = new Gson().fromJson(response, listType);\r\n\r\n      // gather required fields\r\n      for (MessagingFoodBox b : responseBoxes) {\r\n        boxIds.add(b.id);\r\n      }\r\n    } catch (Exception e) {\r\n      e.printStackTrace();\r\n    }\r\n\r\n    return boxIds;\r\n  }\r\n\r\n  @Override\r\n  public boolean placeOrder() {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean editOrder(int orderNumber) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean cancelOrder(int orderNumber) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean requestOrderStatus(int orderNumber) {\r\n    return false;\r\n  }\r\n\r\n  // **UPDATE**\r\n  @Override\r\n  public Collection<String> getCateringCompanies() {\r\n    return null;\r\n  }\r\n\r\n  // **UPDATE**\r\n  @Override\r\n  public float getDistance(String postCode1, String postCode2) {\r\n    return 0;\r\n  }\r\n\r\n  @Override\r\n  public boolean isRegistered() {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public String getCHI() {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public int getFoodBoxNumber() {\r\n    return 0;\r\n  }\r\n\r\n  @Override\r\n  public String getDietaryPreferenceForFoodBox(int foodBoxId) {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public int getItemsNumberForFoodBox(int foodBoxId) {\r\n    return 0;\r\n  }\r\n\r\n  @Override\r\n  public Collection<Integer> getItemIdsForFoodBox(int foodboxId) {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public String getItemNameForFoodBox(int itemId, int foodBoxId) {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public int getItemQuantityForFoodBox(int itemId, int foodBoxId) {\r\n    return 0;\r\n  }\r\n\r\n  @Override\r\n  public boolean pickFoodBox(int foodBoxId) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean changeItemQuantityForPickedFoodBox(int itemId, int quantity) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public Collection<Integer> getOrderNumbers() {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public String getStatusForOrder(int orderNumber) {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public Collection<Integer> getItemIdsForOrder(int orderNumber) {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public String getItemNameForOrder(int itemId, int orderNumber) {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public int getItemQuantityForOrder(int itemId, int orderNumber) {\r\n    return 0;\r\n  }\r\n\r\n  @Override\r\n  public boolean setItemQuantityForOrder(int itemId, int orderNumber, int quantity) {\r\n    return false;\r\n  }\r\n\r\n  // **UPDATE**\r\n  @Override\r\n  public String getClosestCateringCompany() {\r\n    return null;\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/shield/DummyShieldingIndividualClientImp.java b/src/main/java/shield/DummyShieldingIndividualClientImp.java
+--- a/src/main/java/shield/DummyShieldingIndividualClientImp.java	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/src/main/java/shield/DummyShieldingIndividualClientImp.java	(date 1618937991653)
+@@ -28,7 +28,6 @@
+   final class MessagingFoodBox {
+     // a field marked as transient is skipped in marshalling/unmarshalling
+     transient List<String> contents;
+-
+     String delivered_by;
+     String diet;
+     String id;
+@@ -49,7 +48,7 @@
+     // construct the endpoint request
+     String request = "/showFoodBox?orderOption=catering&dietaryPreference=none";
+ 
+-    // setup the response recepient
++    // setup the response recipient
+     List<MessagingFoodBox> responseBoxes = new ArrayList<MessagingFoodBox>();
+ 
+     List<String> boxIds = new ArrayList<String>();
+Index: src/main/java/shield/SupermarketClientImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/**\r\n *\r\n */\r\n\r\npackage shield;\r\n\r\npublic class SupermarketClientImp implements SupermarketClient {\r\n  public SupermarketClientImp(String endpoint) {\r\n  }\r\n\r\n  @Override\r\n  public boolean registerSupermarket(String name, String postCode) {\r\n    return false;\r\n  }\r\n\r\n  // **UPDATE2** ADDED METHOD\r\n  @Override\r\n  public boolean recordSupermarketOrder(String CHI, int orderNumber) {\r\n    return false;\r\n  }\r\n\r\n  // **UPDATE**\r\n  @Override\r\n  public boolean updateOrderStatus(int orderNumber, String status) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean isRegistered() {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public String getName() {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public String getPostCode() {\r\n    return null;\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/shield/SupermarketClientImp.java b/src/main/java/shield/SupermarketClientImp.java
+--- a/src/main/java/shield/SupermarketClientImp.java	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/src/main/java/shield/SupermarketClientImp.java	(date 1618949427166)
+@@ -4,25 +4,97 @@
+ 
+ package shield;
+ 
++import java.util.List;
++
+ public class SupermarketClientImp implements SupermarketClient {
++  private String endpoint;
++  private String name;
++  private String postcode;
++  private boolean isRegistered;
++
++  // internal field only used for transmission purposes
++  final class provider {
++    // a field marked as transient is skipped in marshalling/unmarshalling
++    transient List<String> details;
++
++    String providerID;
++    String name;
++    String postcode;
++  }
++
+   public SupermarketClientImp(String endpoint) {
++    this.endpoint = endpoint;
+   }
+ 
+   @Override
+-  public boolean registerSupermarket(String name, String postCode) {
+-    return false;
++  public boolean registerSupermarket(String newName, String newPostcode) {
++
++    String request = "/registerSupermarket?business_name=newName&postcode=newPostcode"
++    boolean success;
++    String response = null;
++
++    try {
++      response = ClientIO.doPOSTRequest(endpoint, request);
++    } catch (Exception e) {
++      e.printStackTrace();
++    }
++
++    if (response == "already registered" || response == "registered new") {
++      success = true;
++      this.name = newName;
++      this.postcode = newPostcode;
++    }
++    else {
++      success = false;
++    }
++    return success;
+   }
+ 
+   // **UPDATE2** ADDED METHOD
+   @Override
++/**
++ /recordSupermarketOrder?individual id=x&order number=y&supermarket business name=z&supermarket postcode=w,
++ where ‘x’ is the CHI number, ‘y’ is the order ID, ‘z’ is the supermarket business
++ name and ‘w’ is the supermarket’s postcode. This method should be implemented
++ by the supermarket client in order to record an order via a supermarket. The end
++ point returns ‘True’ or ‘False’ depending on whether the order has been recorded
++ or not.
++ */
+   public boolean recordSupermarketOrder(String CHI, int orderNumber) {
+-    return false;
++    String supermarketName = this.name;
++    String supermarketPostcode = this.postcode;
++    String request = "/recordSupermarketOrder?individual_id=CHI&order_number=orderNumber&supermarket_business_name=supermarketName&supermarket_postcode=supermarketPostcode";
++    boolean success = false;
++    String  response = null;
++
++    try {
++      response = ClientIO.doPOSTRequest(endpoint, request);
++    } catch (Exception e) {
++      e.printStackTrace();
++    }
++    if (response == True){
++      success = true;
++    }
++    return success;
+   }
+ 
+   // **UPDATE**
+   @Override
+-  public boolean updateOrderStatus(int orderNumber, String status) {
+-    return false;
++  public boolean updateOrderStatus(int orderNumber, String newStatus) {
++    String request = "/updateOrderStatus?order_id=orderNumber&newStatus=newStatus";
++    boolean success = true;
++    String response = null;
++
++    try{
++      response = ClientIO.doPOSTRequest(endpoint, request);
++    }catch (Exception e) {
++      e.printStackTrace();
++    }
++
++    if (response == "False"){
++      success = false;
++    }
++    return success;
+   }
+ 
+   @Override
+Index: providers.txt
+===================================================================
+diff --git a/providers.txt b/providers.txt
+deleted file mode 100644
+--- a/providers.txt	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,1 +0,0 @@
+-
+Index: stock.txt
+===================================================================
+diff --git a/stock.txt b/stock.txt
+deleted file mode 100644
+--- a/stock.txt	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,15 +0,0 @@
+-id,name,price,quantity
+-1,cucumbers,0.6,999
+-2,tomatoes,1,999
+-3,onions,0.5,999
+-4,carrots,0.8,999
+-5,beef,3,999
+-6,pork,2,999
+-7,chicken,1.5,999
+-8,bacon,2.1,999
+-9,oranges,1.3,999
+-10,apples,0.8,999
+-11,avocado,1.4,999
+-12,mango,1.5,999
+-13,cabbage,0.5,999
+-14,cheese,1.5,999
+Index: README (2).md
+===================================================================
+diff --git a/README (2).md b/README (2).md
+deleted file mode 100644
+--- a/README (2).md	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,60 +0,0 @@
+-Updated 09/04/2021
+-
+-export FLASK_APP=server.py && flask run --host=0.0.0.0
+-
+-
+-0) curl 'localhost:5000/registerShieldingIndividual?CHI=42'
+-
+-Returns: ["EH9 8LQ","fwjwvwm","wduvgavy","9110026109013"] ([postcode, name, surname, phone number]) / already registered
+-
+-1) curl 'localhost:5000/showFoodBox?[dietaryPreference=none']
+-
+-Returns: [{"contents":[{"id":1,"name":"cucumbers","quantity":1},{"id":2,"name":"tomatoes","quantity":2},{"id":6,"name":"pork","quantity":1}],"delivered_by":"catering","diet":"none","id":1,"name":"box a"},{"contents":[{"id":3,"name":"onions","quantity":1},{"id":4,"name":"carrots","quantity":2},{"id":8,"name":"bacon","quantity":1}],"delivered_by":"catering","diet":"none","id":3,"name":"box c"},{"contents":[{"id":13,"name":"cabbage","quantity":1},{"id":11,"name":"avocado","quantity":1},{"id":8,"name":"bacon","quantity":1},{"id":9,"name":"oranges","quantity":1}],"delivered_by":"catering","diet":"none","id":4,"name":"box d"}]
+-
+-2) curl --request POST -d '{"contents": [{"id":1,"name":"cucumbers","quantity":20},{"id":2,"name":"tomatoes","quantity":2}]}' -H 'Content-Type: application/json' 'localhost:5000/placeOrder?individual_id=42&catering_business_name=catering1&catering_postcode=eh0112'
+-
+-Returns order_id
+-
+-3) curl --request POST -d '{"contents": [{"id":1,"name":"cucumbers","quantity":19},{"id":2,"name":"tomatoes","quantity":2}]}' -H 'Content-Type: application/json' 'localhost:5000/editOrder?order_id=14'
+-
+-Returns True or False
+-
+-4) curl 'localhost:5000/requestStatus?order_id=42'
+-
+-Returns status integer or -1 if order not found
+-
+-5) curl 'localhost:5000/registerCateringCompany?business_name=catering1&postcode=eh0111'
+-
+-(The server does not verify the postcode. This means that the postcode can be almost anything)
+-Returns: registered new / already registered
+-
+-6) curl 'localhost:5000/cancelOrder?order_id=42'
+-
+-Returns: true or false
+-
+-7) curl 'localhost:5000/registerSupermarket?business_name=catering1&postcode=eh0111'
+-
+-(The server does not verify the postcode. This means that the postcode can be almost anything)
+-Returns: registered new / already registered
+-
+-8) curl 'localhost:5000/updateOrderStatus?order_id=42&newStatus=packed' (packed/dispatched/delivered)
+-
+-Returns: True or False
+-
+-9) curl 'localhost:5000/getCaterers'
+-
+-Returns: ["catering1,eh0111","catering1,eh0111","catering1,eh0111","catering1,eh0111","catering1,eh0111","catering1,eh0111","catering1,eh0112","catering1,eh0113","catering1,eh0114"]
+-
+-10) curl 'localhost:5000/distance?postcode1=EH11_2DR&postcode2=EH11_3DR' (Only 'EH')
+-
+-Returns: 17.477597712106768 (in meters [not actual distance])
+-
+-11) curl 'localhost:5000/recordSupermarketOrder?individual_id=42&order_number=42&supermarket_business_name=catering1&supermarket_postcode=eh0111'
+-
+-Returns:
+-True or error message
+-
+-12) curl 'localhost:5000/updateSupermarketOrderStatus?order_id=420&newStatus=packed'
+-
+-Returns:
+-True or False
+Index: orders.csv
+===================================================================
+diff --git a/orders.csv b/orders.csv
+deleted file mode 100644
+--- a/orders.csv	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,1 +0,0 @@
+-order_id,cucumbers,tomatoes,onions,carrots,beef,pork,chicken,bacon,oranges,apples,avocado,mango,cabbage,cheese,individual_id,catering_id,ordered_datetime,packed_date_time,dispatched_date_time,delivered_date_time,status
+Index: food_boxes.txt
+===================================================================
+diff --git a/food_boxes.txt b/food_boxes.txt
+deleted file mode 100644
+--- a/food_boxes.txt	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,128 +0,0 @@
+-[
+-        {
+-          "id":1,
+-          "diet":"none",
+-          "delivered_by":"catering",
+-          "name":"box a",
+-          "contents": [
+-            {
+-              "id":1,
+-              "name":"cucumbers",
+-              "quantity":1
+-            },
+-            {
+-              "id":2,
+-              "name":"tomatoes",
+-              "quantity":2
+-            },
+-            {
+-              "id":6,
+-              "name":"pork",
+-              "quantity":1
+-            }
+-            ]
+-        },
+-
+-        {
+-          "id":2,
+-          "name":"box b",
+-          "diet":"pollotarian",
+-          "delivered_by":"catering",
+-          "contents": [
+-            {
+-              "id":1,
+-              "name":"cucumbers",
+-              "quantity":2
+-            },
+-            {
+-              "id":3,
+-              "name":"onions",
+-              "quantity":1
+-            },
+-            {
+-              "id":7,
+-              "name":"chicken",
+-              "quantity":1
+-            }
+-            ]
+-        },
+-
+-        {
+-          "id":3,
+-          "name":"box c",
+-          "delivered_by":"catering",
+-          "diet":"none",
+-          "contents": [
+-            {
+-              "id":3,
+-              "name":"onions",
+-              "quantity":1
+-            },
+-            {
+-              "id":4,
+-              "name":"carrots",
+-              "quantity":2
+-            },
+-            {
+-              "id":8,
+-              "name":"bacon",
+-              "quantity":1
+-            }
+-            ]
+-        },
+-
+-        {
+-          "id":4,
+-          "name":"box d",
+-          "delivered_by":"catering",
+-          "diet":"none",
+-          "contents": [
+-            {
+-              "id":13,
+-              "name":"cabbage",
+-              "quantity":1
+-            },
+-            {
+-              "id":11,
+-              "name":"avocado",
+-              "quantity":1
+-            },
+-            {
+-              "id":8,
+-              "name":"bacon",
+-              "quantity":1
+-            },
+-            {
+-              "id":9,
+-              "name":"oranges",
+-              "quantity":1
+-            }
+-            ]
+-        },
+-
+-
+-        {
+-          "id":5,
+-          "diet":"vegan",
+-          "delivered_by":"catering",
+-          "name":"box e",
+-          "contents": [
+-            {
+-              "id":9,
+-              "name":"oranges",
+-              "quantity":1
+-            },
+-            {
+-              "id":11,
+-              "name":"avocado",
+-              "quantity":1
+-            },
+-            {
+-              "id":12,
+-              "name":"mango",
+-              "quantity":1
+-            }
+-            ]
+-        }
+-
+-]
+Index: shielding_individuals.txt
+===================================================================
+diff --git a/shielding_individuals.txt b/shielding_individuals.txt
+deleted file mode 100644
+--- a/shielding_individuals.txt	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,1 +0,0 @@
+-
+Index: supermarkets.txt
+===================================================================
+diff --git a/supermarkets.txt b/supermarkets.txt
+deleted file mode 100644
+--- a/supermarkets.txt	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,1 +0,0 @@
+-
+Index: supermarket_orders.csv
+===================================================================
+diff --git a/supermarket_orders.csv b/supermarket_orders.csv
+deleted file mode 100644
+--- a/supermarket_orders.csv	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ /dev/null	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
+@@ -1,1 +0,0 @@
+-
+Index: build/reports/tests/test/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\r\n<meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"/>\r\n<title>Test results - Test Summary</title>\r\n<link href=\"css/base-style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<link href=\"css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<script src=\"js/report.js\" type=\"text/javascript\"></script>\r\n</head>\r\n<body>\r\n<div id=\"content\">\r\n<h1>Test Summary</h1>\r\n<div id=\"summary\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"summaryGroup\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"infoBox\" id=\"tests\">\r\n<div class=\"counter\">4</div>\r\n<p>tests</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"failures\">\r\n<div class=\"counter\">4</div>\r\n<p>failures</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"ignored\">\r\n<div class=\"counter\">0</div>\r\n<p>ignored</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"duration\">\r\n<div class=\"counter\">2.120s</div>\r\n<p>duration</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox failures\" id=\"successRate\">\r\n<div class=\"percent\">0%</div>\r\n<p>successful</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tabs\">\r\n<ul class=\"tabLinks\">\r\n<li>\r\n<a href=\"#tab0\">Failed tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab1\">Packages</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab2\">Classes</a>\r\n</li>\r\n</ul>\r\n<div id=\"tab0\" class=\"tab\">\r\n<h2>Failed tests</h2>\r\n<ul class=\"linkList\">\r\n<li>\r\n<a href=\"classes/shield.CateringCompanyClientImpTest.html\">CateringCompanyClientImpTest</a>.\r\n<a href=\"classes/shield.CateringCompanyClientImpTest.html#testCateringCompanyNewRegistration()\">testCateringCompanyNewRegistration()</a>\r\n</li>\r\n<li>\r\n<a href=\"classes/shield.DummyShieldingIndividualClientImpTest.html\">DummyShieldingIndividualClientImpTest</a>.\r\n<a href=\"classes/shield.DummyShieldingIndividualClientImpTest.html#testShowFoodBoxes()\">testShowFoodBoxes()</a>\r\n</li>\r\n<li>\r\n<a href=\"classes/shield.ShieldingIndividualClientImpTest.html\">ShieldingIndividualClientImpTest</a>.\r\n<a href=\"classes/shield.ShieldingIndividualClientImpTest.html#testShieldingIndividualNewRegistration()\">testShieldingIndividualNewRegistration()</a>\r\n</li>\r\n<li>\r\n<a href=\"classes/shield.SupermarketClientImpTest.html\">SupermarketClientImpTest</a>.\r\n<a href=\"classes/shield.SupermarketClientImpTest.html#testSupermarketNewRegistration()\">testSupermarketNewRegistration()</a>\r\n</li>\r\n</ul>\r\n</div>\r\n<div id=\"tab1\" class=\"tab\">\r\n<h2>Packages</h2>\r\n<table>\r\n<thead>\r\n<tr>\r\n<th>Package</th>\r\n<th>Tests</th>\r\n<th>Failures</th>\r\n<th>Ignored</th>\r\n<th>Duration</th>\r\n<th>Success rate</th>\r\n</tr>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"packages/shield.html\">shield</a>\r\n</td>\r\n<td>4</td>\r\n<td>4</td>\r\n<td>0</td>\r\n<td>2.120s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<div id=\"tab2\" class=\"tab\">\r\n<h2>Classes</h2>\r\n<table>\r\n<thead>\r\n<tr>\r\n<th>Class</th>\r\n<th>Tests</th>\r\n<th>Failures</th>\r\n<th>Ignored</th>\r\n<th>Duration</th>\r\n<th>Success rate</th>\r\n</tr>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"classes/shield.CateringCompanyClientImpTest.html\">shield.CateringCompanyClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>0.022s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"classes/shield.DummyShieldingIndividualClientImpTest.html\">shield.DummyShieldingIndividualClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>2.092s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"classes/shield.ShieldingIndividualClientImpTest.html\">shield.ShieldingIndividualClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>0.003s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"classes/shield.SupermarketClientImpTest.html\">shield.SupermarketClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>0.003s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>\r\n<div id=\"footer\">\r\n<p>\r\n<div>\r\n<label class=\"hidden\" id=\"label-for-line-wrapping-toggle\" for=\"line-wrapping-toggle\">Wrap lines\r\n<input id=\"line-wrapping-toggle\" type=\"checkbox\" autocomplete=\"off\"/>\r\n</label>\r\n</div>Generated by \r\n<a href=\"http://www.gradle.org\">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/reports/tests/test/index.html b/build/reports/tests/test/index.html
+--- a/build/reports/tests/test/index.html	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/reports/tests/test/index.html	(date 1618860497161)
+@@ -38,7 +38,7 @@
+ </td>
+ <td>
+ <div class="infoBox" id="duration">
+-<div class="counter">2.120s</div>
++<div class="counter">0.061s</div>
+ <p>duration</p>
+ </div>
+ </td>
+@@ -109,7 +109,7 @@
+ <td>4</td>
+ <td>4</td>
+ <td>0</td>
+-<td>2.120s</td>
++<td>0.061s</td>
+ <td class="failures">0%</td>
+ </tr>
+ </tbody>
+@@ -136,7 +136,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>0.022s</td>
++<td>0.018s</td>
+ <td class="failures">0%</td>
+ </tr>
+ <tr>
+@@ -146,7 +146,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>2.092s</td>
++<td>0.034s</td>
+ <td class="failures">0%</td>
+ </tr>
+ <tr>
+@@ -156,7 +156,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>0.003s</td>
++<td>0.004s</td>
+ <td class="failures">0%</td>
+ </tr>
+ <tr>
+@@ -166,7 +166,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>0.003s</td>
++<td>0.005s</td>
+ <td class="failures">0%</td>
+ </tr>
+ </tbody>
+@@ -180,7 +180,7 @@
+ <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+ </label>
+ </div>Generated by 
+-<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>
++<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 19, 2021, 8:28:17 PM</p>
+ </div>
+ </div>
+ </body>
+Index: src/main/java/shield/CateringCompanyClientImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/**\r\n *\r\n */\r\n\r\npackage shield;\r\n\r\npublic class CateringCompanyClientImp implements CateringCompanyClient {\r\n  public CateringCompanyClientImp(String endpoint) {\r\n  }\r\n\r\n  @Override\r\n  public boolean registerCateringCompany(String name, String postCode) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean updateOrderStatus(int orderNumber, String status) {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public boolean isRegistered() {\r\n    return false;\r\n  }\r\n\r\n  @Override\r\n  public String getName() {\r\n    return null;\r\n  }\r\n\r\n  @Override\r\n  public String getPostCode() {\r\n    return null;\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/shield/CateringCompanyClientImp.java b/src/main/java/shield/CateringCompanyClientImp.java
+--- a/src/main/java/shield/CateringCompanyClientImp.java	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/src/main/java/shield/CateringCompanyClientImp.java	(date 1618937531312)
+@@ -19,9 +19,7 @@
+   }
+ 
+   @Override
+-  public boolean isRegistered() {
+-    return false;
+-  }
++  public boolean isRegistered() {return false;  }
+ 
+   @Override
+   public String getName() {
+Index: build/reports/tests/test/classes/shield.SupermarketClientImpTest.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\r\n<meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"/>\r\n<title>Test results - SupermarketClientImpTest</title>\r\n<link href=\"../css/base-style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<link href=\"../css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<script src=\"../js/report.js\" type=\"text/javascript\"></script>\r\n</head>\r\n<body>\r\n<div id=\"content\">\r\n<h1>SupermarketClientImpTest</h1>\r\n<div class=\"breadcrumbs\">\r\n<a href=\"../index.html\">all</a> &gt; \r\n<a href=\"../packages/shield.html\">shield</a> &gt; SupermarketClientImpTest</div>\r\n<div id=\"summary\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"summaryGroup\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"infoBox\" id=\"tests\">\r\n<div class=\"counter\">1</div>\r\n<p>tests</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"failures\">\r\n<div class=\"counter\">1</div>\r\n<p>failures</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"ignored\">\r\n<div class=\"counter\">0</div>\r\n<p>ignored</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"duration\">\r\n<div class=\"counter\">0.003s</div>\r\n<p>duration</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox failures\" id=\"successRate\">\r\n<div class=\"percent\">0%</div>\r\n<p>successful</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tabs\">\r\n<ul class=\"tabLinks\">\r\n<li>\r\n<a href=\"#tab0\">Failed tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab1\">Tests</a>\r\n</li>\r\n</ul>\r\n<div id=\"tab0\" class=\"tab\">\r\n<h2>Failed tests</h2>\r\n<div class=\"test\">\r\n<a name=\"testSupermarketNewRegistration()\"></a>\r\n<h3 class=\"failures\">testSupermarketNewRegistration()</h3>\r\n<span class=\"code\">\r\n<pre>org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:137)\r\n\tat shield.SupermarketClientImpTest.testSupermarketNewRegistration(SupermarketClientImpTest.java:56)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</pre>\r\n</span>\r\n</div>\r\n</div>\r\n<div id=\"tab1\" class=\"tab\">\r\n<h2>Tests</h2>\r\n<table>\r\n<thead>\r\n<tr>\r\n<th>Test</th>\r\n<th>Duration</th>\r\n<th>Result</th>\r\n</tr>\r\n</thead>\r\n<tr>\r\n<td class=\"failures\">testSupermarketNewRegistration()</td>\r\n<td class=\"failures\">0.003s</td>\r\n<td class=\"failures\">failed</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</div>\r\n<div id=\"footer\">\r\n<p>\r\n<div>\r\n<label class=\"hidden\" id=\"label-for-line-wrapping-toggle\" for=\"line-wrapping-toggle\">Wrap lines\r\n<input id=\"line-wrapping-toggle\" type=\"checkbox\" autocomplete=\"off\"/>\r\n</label>\r\n</div>Generated by \r\n<a href=\"http://www.gradle.org\">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/reports/tests/test/classes/shield.SupermarketClientImpTest.html b/build/reports/tests/test/classes/shield.SupermarketClientImpTest.html
+--- a/build/reports/tests/test/classes/shield.SupermarketClientImpTest.html	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/reports/tests/test/classes/shield.SupermarketClientImpTest.html	(date 1618860497163)
+@@ -41,7 +41,7 @@
+ </td>
+ <td>
+ <div class="infoBox" id="duration">
+-<div class="counter">0.003s</div>
++<div class="counter">0.005s</div>
+ <p>duration</p>
+ </div>
+ </td>
+@@ -161,7 +161,7 @@
+ </thead>
+ <tr>
+ <td class="failures">testSupermarketNewRegistration()</td>
+-<td class="failures">0.003s</td>
++<td class="failures">0.005s</td>
+ <td class="failures">failed</td>
+ </tr>
+ </table>
+@@ -174,7 +174,7 @@
+ <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+ </label>
+ </div>Generated by 
+-<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>
++<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 19, 2021, 8:28:17 PM</p>
+ </div>
+ </div>
+ </body>
+Index: build/reports/tests/test/classes/shield.ShieldingIndividualClientImpTest.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\r\n<meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"/>\r\n<title>Test results - ShieldingIndividualClientImpTest</title>\r\n<link href=\"../css/base-style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<link href=\"../css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<script src=\"../js/report.js\" type=\"text/javascript\"></script>\r\n</head>\r\n<body>\r\n<div id=\"content\">\r\n<h1>ShieldingIndividualClientImpTest</h1>\r\n<div class=\"breadcrumbs\">\r\n<a href=\"../index.html\">all</a> &gt; \r\n<a href=\"../packages/shield.html\">shield</a> &gt; ShieldingIndividualClientImpTest</div>\r\n<div id=\"summary\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"summaryGroup\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"infoBox\" id=\"tests\">\r\n<div class=\"counter\">1</div>\r\n<p>tests</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"failures\">\r\n<div class=\"counter\">1</div>\r\n<p>failures</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"ignored\">\r\n<div class=\"counter\">0</div>\r\n<p>ignored</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"duration\">\r\n<div class=\"counter\">0.003s</div>\r\n<p>duration</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox failures\" id=\"successRate\">\r\n<div class=\"percent\">0%</div>\r\n<p>successful</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tabs\">\r\n<ul class=\"tabLinks\">\r\n<li>\r\n<a href=\"#tab0\">Failed tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab1\">Tests</a>\r\n</li>\r\n</ul>\r\n<div id=\"tab0\" class=\"tab\">\r\n<h2>Failed tests</h2>\r\n<div class=\"test\">\r\n<a name=\"testShieldingIndividualNewRegistration()\"></a>\r\n<h3 class=\"failures\">testShieldingIndividualNewRegistration()</h3>\r\n<span class=\"code\">\r\n<pre>org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:137)\r\n\tat shield.ShieldingIndividualClientImpTest.testShieldingIndividualNewRegistration(ShieldingIndividualClientImpTest.java:55)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</pre>\r\n</span>\r\n</div>\r\n</div>\r\n<div id=\"tab1\" class=\"tab\">\r\n<h2>Tests</h2>\r\n<table>\r\n<thead>\r\n<tr>\r\n<th>Test</th>\r\n<th>Duration</th>\r\n<th>Result</th>\r\n</tr>\r\n</thead>\r\n<tr>\r\n<td class=\"failures\">testShieldingIndividualNewRegistration()</td>\r\n<td class=\"failures\">0.003s</td>\r\n<td class=\"failures\">failed</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</div>\r\n<div id=\"footer\">\r\n<p>\r\n<div>\r\n<label class=\"hidden\" id=\"label-for-line-wrapping-toggle\" for=\"line-wrapping-toggle\">Wrap lines\r\n<input id=\"line-wrapping-toggle\" type=\"checkbox\" autocomplete=\"off\"/>\r\n</label>\r\n</div>Generated by \r\n<a href=\"http://www.gradle.org\">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/reports/tests/test/classes/shield.ShieldingIndividualClientImpTest.html b/build/reports/tests/test/classes/shield.ShieldingIndividualClientImpTest.html
+--- a/build/reports/tests/test/classes/shield.ShieldingIndividualClientImpTest.html	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/reports/tests/test/classes/shield.ShieldingIndividualClientImpTest.html	(date 1618860497162)
+@@ -41,7 +41,7 @@
+ </td>
+ <td>
+ <div class="infoBox" id="duration">
+-<div class="counter">0.003s</div>
++<div class="counter">0.004s</div>
+ <p>duration</p>
+ </div>
+ </td>
+@@ -161,7 +161,7 @@
+ </thead>
+ <tr>
+ <td class="failures">testShieldingIndividualNewRegistration()</td>
+-<td class="failures">0.003s</td>
++<td class="failures">0.004s</td>
+ <td class="failures">failed</td>
+ </tr>
+ </table>
+@@ -174,7 +174,7 @@
+ <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+ </label>
+ </div>Generated by 
+-<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>
++<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 19, 2021, 8:28:17 PM</p>
+ </div>
+ </div>
+ </body>
+Index: build/reports/tests/test/classes/shield.DummyShieldingIndividualClientImpTest.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\r\n<meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"/>\r\n<title>Test results - DummyShieldingIndividualClientImpTest</title>\r\n<link href=\"../css/base-style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<link href=\"../css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<script src=\"../js/report.js\" type=\"text/javascript\"></script>\r\n</head>\r\n<body>\r\n<div id=\"content\">\r\n<h1>DummyShieldingIndividualClientImpTest</h1>\r\n<div class=\"breadcrumbs\">\r\n<a href=\"../index.html\">all</a> &gt; \r\n<a href=\"../packages/shield.html\">shield</a> &gt; DummyShieldingIndividualClientImpTest</div>\r\n<div id=\"summary\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"summaryGroup\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"infoBox\" id=\"tests\">\r\n<div class=\"counter\">1</div>\r\n<p>tests</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"failures\">\r\n<div class=\"counter\">1</div>\r\n<p>failures</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"ignored\">\r\n<div class=\"counter\">0</div>\r\n<p>ignored</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"duration\">\r\n<div class=\"counter\">2.092s</div>\r\n<p>duration</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox failures\" id=\"successRate\">\r\n<div class=\"percent\">0%</div>\r\n<p>successful</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tabs\">\r\n<ul class=\"tabLinks\">\r\n<li>\r\n<a href=\"#tab0\">Failed tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab1\">Tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab2\">Standard error</a>\r\n</li>\r\n</ul>\r\n<div id=\"tab0\" class=\"tab\">\r\n<h2>Failed tests</h2>\r\n<div class=\"test\">\r\n<a name=\"testShowFoodBoxes()\"></a>\r\n<h3 class=\"failures\">testShowFoodBoxes()</h3>\r\n<span class=\"code\">\r\n<pre>org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)\r\n\tat org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)\r\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:152)\r\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:147)\r\n\tat org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:327)\r\n\tat shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</pre>\r\n</span>\r\n</div>\r\n</div>\r\n<div id=\"tab1\" class=\"tab\">\r\n<h2>Tests</h2>\r\n<table>\r\n<thead>\r\n<tr>\r\n<th>Test</th>\r\n<th>Duration</th>\r\n<th>Result</th>\r\n</tr>\r\n</thead>\r\n<tr>\r\n<td class=\"failures\">testShowFoodBoxes()</td>\r\n<td class=\"failures\">2.092s</td>\r\n<td class=\"failures\">failed</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tab2\" class=\"tab\">\r\n<h2>Standard error</h2>\r\n<span class=\"code\">\r\n<pre>java.net.ConnectException: Connection refused (Connection refused)\r\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\r\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\r\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\r\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\r\n\tat java.base/java.net.Socket.connect(Socket.java:609)\r\n\tat java.base/java.net.Socket.connect(Socket.java:558)\r\n\tat java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)\r\n\tat java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)\r\n\tat java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)\r\n\tat java.base/sun.net.www.http.HttpClient.&lt;init&gt;(HttpClient.java:242)\r\n\tat java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)\r\n\tat java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1253)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1187)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1081)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1015)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)\r\n\tat java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:527)\r\n\tat shield.ClientIO.doGETRequest(ClientIO.java:29)\r\n\tat shield.DummyShieldingIndividualClientImp.showFoodBoxes(DummyShieldingIndividualClientImp.java:59)\r\n\tat shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</pre>\r\n</span>\r\n</div>\r\n</div>\r\n<div id=\"footer\">\r\n<p>\r\n<div>\r\n<label class=\"hidden\" id=\"label-for-line-wrapping-toggle\" for=\"line-wrapping-toggle\">Wrap lines\r\n<input id=\"line-wrapping-toggle\" type=\"checkbox\" autocomplete=\"off\"/>\r\n</label>\r\n</div>Generated by \r\n<a href=\"http://www.gradle.org\">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/reports/tests/test/classes/shield.DummyShieldingIndividualClientImpTest.html b/build/reports/tests/test/classes/shield.DummyShieldingIndividualClientImpTest.html
+--- a/build/reports/tests/test/classes/shield.DummyShieldingIndividualClientImpTest.html	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/reports/tests/test/classes/shield.DummyShieldingIndividualClientImpTest.html	(date 1618860497165)
+@@ -41,7 +41,7 @@
+ </td>
+ <td>
+ <div class="infoBox" id="duration">
+-<div class="counter">2.092s</div>
++<div class="counter">0.034s</div>
+ <p>duration</p>
+ </div>
+ </td>
+@@ -165,7 +165,7 @@
+ </thead>
+ <tr>
+ <td class="failures">testShowFoodBoxes()</td>
+-<td class="failures">2.092s</td>
++<td class="failures">0.034s</td>
+ <td class="failures">failed</td>
+ </tr>
+ </table>
+@@ -173,27 +173,11 @@
+ <div id="tab2" class="tab">
+ <h2>Standard error</h2>
+ <span class="code">
+-<pre>java.net.ConnectException: Connection refused (Connection refused)
+-	at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
+-	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)
+-	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)
+-	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)
+-	at java.base/java.net.Socket.connect(Socket.java:609)
+-	at java.base/java.net.Socket.connect(Socket.java:558)
+-	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)
+-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)
+-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)
+-	at java.base/sun.net.www.http.HttpClient.&lt;init&gt;(HttpClient.java:242)
+-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)
+-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1253)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1187)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1081)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1015)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+-	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:527)
+-	at shield.ClientIO.doGETRequest(ClientIO.java:29)
++<pre>java.net.MalformedURLException: unknown protocol: c
++	at java.base/java.net.URL.&lt;init&gt;(URL.java:652)
++	at java.base/java.net.URL.&lt;init&gt;(URL.java:541)
++	at java.base/java.net.URL.&lt;init&gt;(URL.java:488)
++	at shield.ClientIO.doGETRequest(ClientIO.java:24)
+ 	at shield.DummyShieldingIndividualClientImp.showFoodBoxes(DummyShieldingIndividualClientImp.java:59)
+ 	at shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)
+ 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+@@ -273,7 +257,7 @@
+ <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+ </label>
+ </div>Generated by 
+-<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>
++<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 19, 2021, 8:28:17 PM</p>
+ </div>
+ </div>
+ </body>
+Index: build/reports/tests/test/classes/shield.CateringCompanyClientImpTest.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\r\n<meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"/>\r\n<title>Test results - CateringCompanyClientImpTest</title>\r\n<link href=\"../css/base-style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<link href=\"../css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<script src=\"../js/report.js\" type=\"text/javascript\"></script>\r\n</head>\r\n<body>\r\n<div id=\"content\">\r\n<h1>CateringCompanyClientImpTest</h1>\r\n<div class=\"breadcrumbs\">\r\n<a href=\"../index.html\">all</a> &gt; \r\n<a href=\"../packages/shield.html\">shield</a> &gt; CateringCompanyClientImpTest</div>\r\n<div id=\"summary\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"summaryGroup\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"infoBox\" id=\"tests\">\r\n<div class=\"counter\">1</div>\r\n<p>tests</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"failures\">\r\n<div class=\"counter\">1</div>\r\n<p>failures</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"ignored\">\r\n<div class=\"counter\">0</div>\r\n<p>ignored</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"duration\">\r\n<div class=\"counter\">0.022s</div>\r\n<p>duration</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox failures\" id=\"successRate\">\r\n<div class=\"percent\">0%</div>\r\n<p>successful</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tabs\">\r\n<ul class=\"tabLinks\">\r\n<li>\r\n<a href=\"#tab0\">Failed tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab1\">Tests</a>\r\n</li>\r\n</ul>\r\n<div id=\"tab0\" class=\"tab\">\r\n<h2>Failed tests</h2>\r\n<div class=\"test\">\r\n<a name=\"testCateringCompanyNewRegistration()\"></a>\r\n<h3 class=\"failures\">testCateringCompanyNewRegistration()</h3>\r\n<span class=\"code\">\r\n<pre>org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:137)\r\n\tat shield.CateringCompanyClientImpTest.testCateringCompanyNewRegistration(CateringCompanyClientImpTest.java:56)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</pre>\r\n</span>\r\n</div>\r\n</div>\r\n<div id=\"tab1\" class=\"tab\">\r\n<h2>Tests</h2>\r\n<table>\r\n<thead>\r\n<tr>\r\n<th>Test</th>\r\n<th>Duration</th>\r\n<th>Result</th>\r\n</tr>\r\n</thead>\r\n<tr>\r\n<td class=\"failures\">testCateringCompanyNewRegistration()</td>\r\n<td class=\"failures\">0.022s</td>\r\n<td class=\"failures\">failed</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</div>\r\n<div id=\"footer\">\r\n<p>\r\n<div>\r\n<label class=\"hidden\" id=\"label-for-line-wrapping-toggle\" for=\"line-wrapping-toggle\">Wrap lines\r\n<input id=\"line-wrapping-toggle\" type=\"checkbox\" autocomplete=\"off\"/>\r\n</label>\r\n</div>Generated by \r\n<a href=\"http://www.gradle.org\">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/reports/tests/test/classes/shield.CateringCompanyClientImpTest.html b/build/reports/tests/test/classes/shield.CateringCompanyClientImpTest.html
+--- a/build/reports/tests/test/classes/shield.CateringCompanyClientImpTest.html	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/reports/tests/test/classes/shield.CateringCompanyClientImpTest.html	(date 1618860497162)
+@@ -41,7 +41,7 @@
+ </td>
+ <td>
+ <div class="infoBox" id="duration">
+-<div class="counter">0.022s</div>
++<div class="counter">0.018s</div>
+ <p>duration</p>
+ </div>
+ </td>
+@@ -161,7 +161,7 @@
+ </thead>
+ <tr>
+ <td class="failures">testCateringCompanyNewRegistration()</td>
+-<td class="failures">0.022s</td>
++<td class="failures">0.018s</td>
+ <td class="failures">failed</td>
+ </tr>
+ </table>
+@@ -174,7 +174,7 @@
+ <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+ </label>
+ </div>Generated by 
+-<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>
++<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 19, 2021, 8:28:17 PM</p>
+ </div>
+ </div>
+ </body>
+Index: build/reports/tests/test/packages/shield.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>\r\n<meta http-equiv=\"x-ua-compatible\" content=\"IE=edge\"/>\r\n<title>Test results - Package shield</title>\r\n<link href=\"../css/base-style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<link href=\"../css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>\r\n<script src=\"../js/report.js\" type=\"text/javascript\"></script>\r\n</head>\r\n<body>\r\n<div id=\"content\">\r\n<h1>Package shield</h1>\r\n<div class=\"breadcrumbs\">\r\n<a href=\"../index.html\">all</a> &gt; shield</div>\r\n<div id=\"summary\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"summaryGroup\">\r\n<table>\r\n<tr>\r\n<td>\r\n<div class=\"infoBox\" id=\"tests\">\r\n<div class=\"counter\">4</div>\r\n<p>tests</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"failures\">\r\n<div class=\"counter\">4</div>\r\n<p>failures</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"ignored\">\r\n<div class=\"counter\">0</div>\r\n<p>ignored</p>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox\" id=\"duration\">\r\n<div class=\"counter\">2.120s</div>\r\n<p>duration</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</td>\r\n<td>\r\n<div class=\"infoBox failures\" id=\"successRate\">\r\n<div class=\"percent\">0%</div>\r\n<p>successful</p>\r\n</div>\r\n</td>\r\n</tr>\r\n</table>\r\n</div>\r\n<div id=\"tabs\">\r\n<ul class=\"tabLinks\">\r\n<li>\r\n<a href=\"#tab0\">Failed tests</a>\r\n</li>\r\n<li>\r\n<a href=\"#tab1\">Classes</a>\r\n</li>\r\n</ul>\r\n<div id=\"tab0\" class=\"tab\">\r\n<h2>Failed tests</h2>\r\n<ul class=\"linkList\">\r\n<li>\r\n<a href=\"../classes/shield.CateringCompanyClientImpTest.html\">CateringCompanyClientImpTest</a>.\r\n<a href=\"../classes/shield.CateringCompanyClientImpTest.html#testCateringCompanyNewRegistration()\">testCateringCompanyNewRegistration()</a>\r\n</li>\r\n<li>\r\n<a href=\"../classes/shield.DummyShieldingIndividualClientImpTest.html\">DummyShieldingIndividualClientImpTest</a>.\r\n<a href=\"../classes/shield.DummyShieldingIndividualClientImpTest.html#testShowFoodBoxes()\">testShowFoodBoxes()</a>\r\n</li>\r\n<li>\r\n<a href=\"../classes/shield.ShieldingIndividualClientImpTest.html\">ShieldingIndividualClientImpTest</a>.\r\n<a href=\"../classes/shield.ShieldingIndividualClientImpTest.html#testShieldingIndividualNewRegistration()\">testShieldingIndividualNewRegistration()</a>\r\n</li>\r\n<li>\r\n<a href=\"../classes/shield.SupermarketClientImpTest.html\">SupermarketClientImpTest</a>.\r\n<a href=\"../classes/shield.SupermarketClientImpTest.html#testSupermarketNewRegistration()\">testSupermarketNewRegistration()</a>\r\n</li>\r\n</ul>\r\n</div>\r\n<div id=\"tab1\" class=\"tab\">\r\n<h2>Classes</h2>\r\n<table>\r\n<thread>\r\n<tr>\r\n<th>Class</th>\r\n<th>Tests</th>\r\n<th>Failures</th>\r\n<th>Ignored</th>\r\n<th>Duration</th>\r\n<th>Success rate</th>\r\n</tr>\r\n</thread>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"../classes/shield.CateringCompanyClientImpTest.html\">CateringCompanyClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>0.022s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"../classes/shield.DummyShieldingIndividualClientImpTest.html\">DummyShieldingIndividualClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>2.092s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"../classes/shield.ShieldingIndividualClientImpTest.html\">ShieldingIndividualClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>0.003s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n<tr>\r\n<td class=\"failures\">\r\n<a href=\"../classes/shield.SupermarketClientImpTest.html\">SupermarketClientImpTest</a>\r\n</td>\r\n<td>1</td>\r\n<td>1</td>\r\n<td>0</td>\r\n<td>0.003s</td>\r\n<td class=\"failures\">0%</td>\r\n</tr>\r\n</table>\r\n</div>\r\n</div>\r\n<div id=\"footer\">\r\n<p>\r\n<div>\r\n<label class=\"hidden\" id=\"label-for-line-wrapping-toggle\" for=\"line-wrapping-toggle\">Wrap lines\r\n<input id=\"line-wrapping-toggle\" type=\"checkbox\" autocomplete=\"off\"/>\r\n</label>\r\n</div>Generated by \r\n<a href=\"http://www.gradle.org\">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/reports/tests/test/packages/shield.html b/build/reports/tests/test/packages/shield.html
+--- a/build/reports/tests/test/packages/shield.html	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/reports/tests/test/packages/shield.html	(date 1618860497161)
+@@ -40,7 +40,7 @@
+ </td>
+ <td>
+ <div class="infoBox" id="duration">
+-<div class="counter">2.120s</div>
++<div class="counter">0.061s</div>
+ <p>duration</p>
+ </div>
+ </td>
+@@ -107,7 +107,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>0.022s</td>
++<td>0.018s</td>
+ <td class="failures">0%</td>
+ </tr>
+ <tr>
+@@ -117,7 +117,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>2.092s</td>
++<td>0.034s</td>
+ <td class="failures">0%</td>
+ </tr>
+ <tr>
+@@ -127,7 +127,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>0.003s</td>
++<td>0.004s</td>
+ <td class="failures">0%</td>
+ </tr>
+ <tr>
+@@ -137,7 +137,7 @@
+ <td>1</td>
+ <td>1</td>
+ <td>0</td>
+-<td>0.003s</td>
++<td>0.005s</td>
+ <td class="failures">0%</td>
+ </tr>
+ </table>
+@@ -150,7 +150,7 @@
+ <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+ </label>
+ </div>Generated by 
+-<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 18, 2021, 3:39:14 PM</p>
++<a href="http://www.gradle.org">Gradle 6.8.3</a> at Apr 19, 2021, 8:28:17 PM</p>
+ </div>
+ </div>
+ </body>
+Index: build/test-results/test/TEST-shield.SupermarketClientImpTest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<testsuite name=\"shield.SupermarketClientImpTest\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\" timestamp=\"2021-04-18T14:39:13\" hostname=\"Fayz-Laptop\" time=\"0.003\">\r\n  <properties/>\r\n  <testcase name=\"testSupermarketNewRegistration()\" classname=\"shield.SupermarketClientImpTest\" time=\"0.003\">\r\n    <failure message=\"org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\" type=\"org.opentest4j.AssertionFailedError\">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:137)\r\n\tat shield.SupermarketClientImpTest.testSupermarketNewRegistration(SupermarketClientImpTest.java:56)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</failure>\r\n  </testcase>\r\n  <system-out><![CDATA[]]></system-out>\r\n  <system-err><![CDATA[]]></system-err>\r\n</testsuite>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/test-results/test/TEST-shield.SupermarketClientImpTest.xml b/build/test-results/test/TEST-shield.SupermarketClientImpTest.xml
+--- a/build/test-results/test/TEST-shield.SupermarketClientImpTest.xml	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/test-results/test/TEST-shield.SupermarketClientImpTest.xml	(date 1618860497130)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<testsuite name="shield.SupermarketClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-18T14:39:13" hostname="Fayz-Laptop" time="0.003">
++<testsuite name="shield.SupermarketClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-19T19:28:16" hostname="Fayz-Laptop" time="0.005">
+   <properties/>
+-  <testcase name="testSupermarketNewRegistration()" classname="shield.SupermarketClientImpTest" time="0.003">
++  <testcase name="testSupermarketNewRegistration()" classname="shield.SupermarketClientImpTest" time="0.005">
+     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
+ 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+ 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+Index: build/test-results/test/TEST-shield.ShieldingIndividualClientImpTest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<testsuite name=\"shield.ShieldingIndividualClientImpTest\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\" timestamp=\"2021-04-18T14:39:13\" hostname=\"Fayz-Laptop\" time=\"0.003\">\r\n  <properties/>\r\n  <testcase name=\"testShieldingIndividualNewRegistration()\" classname=\"shield.ShieldingIndividualClientImpTest\" time=\"0.003\">\r\n    <failure message=\"org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\" type=\"org.opentest4j.AssertionFailedError\">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:137)\r\n\tat shield.ShieldingIndividualClientImpTest.testShieldingIndividualNewRegistration(ShieldingIndividualClientImpTest.java:55)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</failure>\r\n  </testcase>\r\n  <system-out><![CDATA[]]></system-out>\r\n  <system-err><![CDATA[]]></system-err>\r\n</testsuite>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/test-results/test/TEST-shield.ShieldingIndividualClientImpTest.xml b/build/test-results/test/TEST-shield.ShieldingIndividualClientImpTest.xml
+--- a/build/test-results/test/TEST-shield.ShieldingIndividualClientImpTest.xml	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/test-results/test/TEST-shield.ShieldingIndividualClientImpTest.xml	(date 1618860497130)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<testsuite name="shield.ShieldingIndividualClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-18T14:39:13" hostname="Fayz-Laptop" time="0.003">
++<testsuite name="shield.ShieldingIndividualClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-19T19:28:16" hostname="Fayz-Laptop" time="0.004">
+   <properties/>
+-  <testcase name="testShieldingIndividualNewRegistration()" classname="shield.ShieldingIndividualClientImpTest" time="0.003">
++  <testcase name="testShieldingIndividualNewRegistration()" classname="shield.ShieldingIndividualClientImpTest" time="0.004">
+     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
+ 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+ 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+Index: build/test-results/test/TEST-shield.DummyShieldingIndividualClientImpTest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<testsuite name=\"shield.DummyShieldingIndividualClientImpTest\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\" timestamp=\"2021-04-18T14:39:11\" hostname=\"Fayz-Laptop\" time=\"2.092\">\r\n  <properties/>\r\n  <testcase name=\"testShowFoodBoxes()\" classname=\"shield.DummyShieldingIndividualClientImpTest\" time=\"2.092\">\r\n    <failure message=\"org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;\" type=\"org.opentest4j.AssertionFailedError\">org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)\r\n\tat org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)\r\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:152)\r\n\tat org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:147)\r\n\tat org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:327)\r\n\tat shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</failure>\r\n  </testcase>\r\n  <system-out><![CDATA[]]></system-out>\r\n  <system-err><![CDATA[java.net.ConnectException: Connection refused (Connection refused)\r\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\r\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\r\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\r\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\r\n\tat java.base/java.net.Socket.connect(Socket.java:609)\r\n\tat java.base/java.net.Socket.connect(Socket.java:558)\r\n\tat java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)\r\n\tat java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)\r\n\tat java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)\r\n\tat java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:242)\r\n\tat java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)\r\n\tat java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1253)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1187)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1081)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1015)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)\r\n\tat java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)\r\n\tat java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:527)\r\n\tat shield.ClientIO.doGETRequest(ClientIO.java:29)\r\n\tat shield.DummyShieldingIndividualClientImp.showFoodBoxes(DummyShieldingIndividualClientImp.java:59)\r\n\tat shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n]]></system-err>\r\n</testsuite>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/test-results/test/TEST-shield.DummyShieldingIndividualClientImpTest.xml b/build/test-results/test/TEST-shield.DummyShieldingIndividualClientImpTest.xml
+--- a/build/test-results/test/TEST-shield.DummyShieldingIndividualClientImpTest.xml	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/test-results/test/TEST-shield.DummyShieldingIndividualClientImpTest.xml	(date 1618860497133)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<testsuite name="shield.DummyShieldingIndividualClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-18T14:39:11" hostname="Fayz-Laptop" time="2.092">
++<testsuite name="shield.DummyShieldingIndividualClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-19T19:28:16" hostname="Fayz-Laptop" time="0.034">
+   <properties/>
+-  <testcase name="testShowFoodBoxes()" classname="shield.DummyShieldingIndividualClientImpTest" time="2.092">
++  <testcase name="testShowFoodBoxes()" classname="shield.DummyShieldingIndividualClientImpTest" time="0.034">
+     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;
+ 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
+ 	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
+@@ -78,27 +78,11 @@
+ </failure>
+   </testcase>
+   <system-out><![CDATA[]]></system-out>
+-  <system-err><![CDATA[java.net.ConnectException: Connection refused (Connection refused)
+-	at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
+-	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)
+-	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)
+-	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)
+-	at java.base/java.net.Socket.connect(Socket.java:609)
+-	at java.base/java.net.Socket.connect(Socket.java:558)
+-	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)
+-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)
+-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)
+-	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:242)
+-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)
+-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1253)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1187)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1081)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1015)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)
+-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+-	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:527)
+-	at shield.ClientIO.doGETRequest(ClientIO.java:29)
++  <system-err><![CDATA[java.net.MalformedURLException: unknown protocol: c
++	at java.base/java.net.URL.<init>(URL.java:652)
++	at java.base/java.net.URL.<init>(URL.java:541)
++	at java.base/java.net.URL.<init>(URL.java:488)
++	at shield.ClientIO.doGETRequest(ClientIO.java:24)
+ 	at shield.DummyShieldingIndividualClientImp.showFoodBoxes(DummyShieldingIndividualClientImp.java:59)
+ 	at shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)
+ 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+Index: build/test-results/test/TEST-shield.CateringCompanyClientImpTest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<testsuite name=\"shield.CateringCompanyClientImpTest\" tests=\"1\" skipped=\"0\" failures=\"1\" errors=\"0\" timestamp=\"2021-04-18T14:39:11\" hostname=\"Fayz-Laptop\" time=\"0.022\">\r\n  <properties/>\r\n  <testcase name=\"testCateringCompanyNewRegistration()\" classname=\"shield.CateringCompanyClientImpTest\" time=\"0.022\">\r\n    <failure message=\"org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\" type=\"org.opentest4j.AssertionFailedError\">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;\r\n\tat org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)\r\n\tat org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)\r\n\tat org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:137)\r\n\tat shield.CateringCompanyClientImpTest.testCateringCompanyNewRegistration(CateringCompanyClientImpTest.java:56)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)\r\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)\r\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1541)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)\r\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)\r\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)\r\n\tat org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)\r\n\tat org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)\r\n\tat org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:96)\r\n\tat org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)\r\n\tat org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)\r\n\tat org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)\r\n\tat org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)\r\n\tat com.sun.proxy.$Proxy2.stop(Unknown Source)\r\n\tat org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\r\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)\r\n\tat org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)\r\n\tat org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)\r\n\tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)\r\n\tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\r\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\r\n\tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)\r\n\tat java.base/java.lang.Thread.run(Thread.java:834)\r\n</failure>\r\n  </testcase>\r\n  <system-out><![CDATA[]]></system-out>\r\n  <system-err><![CDATA[]]></system-err>\r\n</testsuite>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/test-results/test/TEST-shield.CateringCompanyClientImpTest.xml b/build/test-results/test/TEST-shield.CateringCompanyClientImpTest.xml
+--- a/build/test-results/test/TEST-shield.CateringCompanyClientImpTest.xml	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/test-results/test/TEST-shield.CateringCompanyClientImpTest.xml	(date 1618860497130)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<testsuite name="shield.CateringCompanyClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-18T14:39:11" hostname="Fayz-Laptop" time="0.022">
++<testsuite name="shield.CateringCompanyClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-19T19:28:16" hostname="Fayz-Laptop" time="0.018">
+   <properties/>
+-  <testcase name="testCateringCompanyNewRegistration()" classname="shield.CateringCompanyClientImpTest" time="0.022">
++  <testcase name="testCateringCompanyNewRegistration()" classname="shield.CateringCompanyClientImpTest" time="0.018">
+     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;true&gt; but was: &lt;false&gt;
+ 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+ 	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+Index: build/resources/main/client.cfg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># URL for remote server endpoint\r\nendpoint=http://localhost:5000\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build/resources/main/client.cfg b/build/resources/main/client.cfg
+--- a/build/resources/main/client.cfg	(revision c8f747ff1a33e9c0fac3524eb6f8260506a4664d)
++++ b/build/resources/main/client.cfg	(date 1618860495482)
+@@ -1,2 +1,2 @@
+ # URL for remote server endpoint
+-endpoint=http://localhost:5000
++endpoint=C:\localhost:5000
