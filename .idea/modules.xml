@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uoe-sepp2021-coursework3-skeleton.iml" filepath="$PROJECT_DIR$/.idea/modules/uoe-sepp2021-coursework3-skeleton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uoe-sepp2021-coursework3-skeleton.main.iml" filepath="$PROJECT_DIR$/.idea/modules/uoe-sepp2021-coursework3-skeleton.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uoe-sepp2021-coursework3-skeleton.test.iml" filepath="$PROJECT_DIR$/.idea/modules/uoe-sepp2021-coursework3-skeleton.test.iml" />
+    </modules>
+  </component>
+</project>
