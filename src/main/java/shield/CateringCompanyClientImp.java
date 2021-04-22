@@ -1,60 +1,53 @@
-/**
- *
- */
-
 package shield;
 
+
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CateringCompanyClientImp implements CateringCompanyClient {
-  private String endpoint;
+  final private String endpoint;
   private String name;
   private String postcode;
   private boolean registered = false;
 
-
-  // internal field only used for transmission purposes
-  final class provider {
-    // a field marked as transient is skipped in marshalling/unmarshalling
-    transient List<String> details;
-    String providerID;
-    String name;
+  static final class CatererDetails {
+    String business_name;
     String postcode;
   }
 
   public CateringCompanyClientImp(String endpoint) {
     this.endpoint = endpoint;
-    this.name = null;
-    this.postcode = null;
+
   }
 
 
   @Override
+
   public boolean registerCateringCompany(String newName, String newPostcode) {
-    String request = "/registerCateringCompany?business_name=newName&postcode=newPostcode";
-    boolean success;
-    String response = null;
+    boolean success = false;
+    String response = "not registered";
+    CatererDetails newCompany = new CatererDetails();
+    newCompany.business_name = newName;
+    newCompany.postcode = newPostcode;
+    String data = new Gson().toJson(newCompany);
+    System.out.println(data);
+    String request = "/registerCateringCompany?business_name=" +
+            newName +"&postcode=" +
+            newPostcode;
+    System.out.println(endpoint+request);
+
 
     try {
-      response = ClientIO.doPOSTRequest(endpoint, request);
+      response = ClientIO.doPOSTRequest(this.endpoint + request, data);
+      System.out.println("Success!");
+      if (response.equals("already registered") || response.equals("registered new")) {
+        this.name = newName;
+        this.postcode = newPostcode;
+        this.registered = true;
+        success = true;
+      }
     } catch (Exception e) {
       e.printStackTrace();
-    }
-
-
-    if (response == "already registered" || response == "registered new") {
-      success = true;
-      this.name = newName;
-      this.postcode = newPostcode;
-      this.registered = true;
-
-    } else {
-      success = false;
-
+      System.out.println("Failed");
     }
     return success;
   }
@@ -62,13 +55,13 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
   @Override
   public boolean updateOrderStatus(int orderNumber, String newStatus) {
     String request = "/updateOrderStatus?order_id=orderNumber&newStatus=newStatus";
-    boolean success = true;
-    String response = null;
+    boolean success = false;
+    String response;
 
     try {
       response = ClientIO.doPOSTRequest(endpoint, request);
-      if (response == "False") {
-        success = false;
+      if (response.equals("True")) {
+        success = true;
       }
     } catch (Exception e) {
       e.printStackTrace();

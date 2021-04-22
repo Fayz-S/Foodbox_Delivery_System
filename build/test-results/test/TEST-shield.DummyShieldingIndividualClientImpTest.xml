@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="shield.DummyShieldingIndividualClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-18T14:39:11" hostname="Fayz-Laptop" time="2.092">
+<testsuite name="shield.DummyShieldingIndividualClientImpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-04-22T09:02:12" hostname="Fayz-Laptop" time="0.03">
   <properties/>
-  <testcase name="testShowFoodBoxes()" classname="shield.DummyShieldingIndividualClientImpTest" time="2.092">
+  <testcase name="testShowFoodBoxes()" classname="shield.DummyShieldingIndividualClientImpTest" time="0.03">
     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;0&gt; but was: &lt;3&gt;
 	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
 	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
@@ -78,28 +78,12 @@
 </failure>
   </testcase>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[java.net.ConnectException: Connection refused (Connection refused)
-	at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)
-	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)
-	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)
-	at java.base/java.net.Socket.connect(Socket.java:609)
-	at java.base/java.net.Socket.connect(Socket.java:558)
-	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)
-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)
-	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)
-	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:242)
-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)
-	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1253)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1187)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1081)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1015)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
-	at java.base/java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:527)
-	at shield.ClientIO.doGETRequest(ClientIO.java:29)
-	at shield.DummyShieldingIndividualClientImp.showFoodBoxes(DummyShieldingIndividualClientImp.java:59)
+  <system-err><![CDATA[java.net.MalformedURLException: unknown protocol: c
+	at java.base/java.net.URL.<init>(URL.java:652)
+	at java.base/java.net.URL.<init>(URL.java:541)
+	at java.base/java.net.URL.<init>(URL.java:488)
+	at shield.ClientIO.doGETRequest(ClientIO.java:24)
+	at shield.DummyShieldingIndividualClientImp.showFoodBoxes(DummyShieldingIndividualClientImp.java:88)
 	at shield.DummyShieldingIndividualClientImpTest.testShowFoodBoxes(DummyShieldingIndividualClientImpTest.java:50)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)

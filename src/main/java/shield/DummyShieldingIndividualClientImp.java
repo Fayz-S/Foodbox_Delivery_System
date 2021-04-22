@@ -14,20 +14,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Type;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class DummyShieldingIndividualClientImp implements ShieldingIndividualClient {
   /**
    * The string representation of the base server endpoint (a HTTP address)
-   *
    */
   private String endpoint;
-  private String name;
-  private String surname;
-  private String postcode;
-  private String phoneNumber;
-  private String dietaryInfo;
 
   // internal field only used for transmission purposes
   final class MessagingFoodBox {
@@ -40,43 +35,19 @@ public class DummyShieldingIndividualClientImp implements ShieldingIndividualCli
     String name;
   }
 
-  final class registeredUser{
-    transient List<String> details;
-
-    String postcode;
-    String name;
-    String surname;
-    String phoneNumber;
-  }
-
   public DummyShieldingIndividualClientImp(String endpoint) {
     this.endpoint = endpoint;
-    this.name = null;
-    this.surname = null;
-    this.postcode = null;
-    this.phoneNumber = null;
-    this.dietaryInfo = null;
   }
 
   @Override
-  public boolean registerShieldingIndividual(String newCHI) {
-    String request = "/registerShieldingIndividual?CHI=newCHI";
-    List<registeredUser> userDetails = new ArrayList<registeredUser>();
-
-    try{
-      String response = ClientIO.doGETRequest(endpoint + request);
-      Type listType = new TypeToken<List<MessagingFoodBox>>() {} .getType();
-      userDetails = new Gson().fromJson(response, listType);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return true;
+  public boolean registerShieldingIndividual(String CHI) {
+    return false;
   }
 
   @Override
   public Collection<String> showFoodBoxes(String dietaryPreference) {
     // construct the endpoint request
-    String request = "/showFoodBox?orderOption=catering&dietaryPreference=none";
+    String request = "/showFoodBox?orderOption=catering&dietaryPreference=" + dietaryPreference;
 
     // setup the response recepient
     List<MessagingFoodBox> responseBoxes = new ArrayList<MessagingFoodBox>();
@@ -85,7 +56,8 @@ public class DummyShieldingIndividualClientImp implements ShieldingIndividualCli
 
     try {
       // perform request
-      String response = ClientIO.doGETRequest(endpoint + request);
+      System.out.println(endpoint + request);
+      String response = ClientIO.doGETRequest(this.endpoint +request);
 
       // unmarshal response
       Type listType = new TypeToken<List<MessagingFoodBox>>() {} .getType();
