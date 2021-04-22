@@ -10,34 +10,27 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
   private boolean registered = false;
 
   static final class CatererDetails {
-    String business_name;
+    String name;
     String postcode;
   }
 
   public CateringCompanyClientImp(String endpoint) {
     this.endpoint = endpoint;
-
   }
-
-
   @Override
 
   public boolean registerCateringCompany(String newName, String newPostcode) {
     boolean success = false;
     String response = "not registered";
-    CatererDetails newCompany = new CatererDetails();
-    newCompany.business_name = newName;
-    newCompany.postcode = newPostcode;
-    String data = new Gson().toJson(newCompany);
-    System.out.println(data);
-    String request = "/registerCateringCompany?business_name=" +
-            newName +"&postcode=" +
-            newPostcode;
+
+    String request = "/registerCateringCompany?" +
+            "business_name=" + newName +
+            "&postcode=" + newPostcode;
     System.out.println(endpoint+request);
 
 
     try {
-      response = ClientIO.doPOSTRequest(this.endpoint + request, data);
+      response = ClientIO.doGETRequest(this.endpoint + request);
       System.out.println("Success!");
       if (response.equals("already registered") || response.equals("registered new")) {
         this.name = newName;
@@ -54,12 +47,14 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
 
   @Override
   public boolean updateOrderStatus(int orderNumber, String newStatus) {
-    String request = "/updateOrderStatus?order_id=orderNumber&newStatus=newStatus";
+    String request = "/updateOrderStatus?" +
+            "order_id=" + orderNumber +
+            "&newStatus=" + newStatus;
     boolean success = false;
     String response;
 
     try {
-      response = ClientIO.doPOSTRequest(endpoint, request);
+      response = ClientIO.doGETRequest(endpoint + request);
       if (response.equals("True")) {
         success = true;
       }

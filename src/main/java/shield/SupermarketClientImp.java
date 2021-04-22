@@ -16,26 +16,20 @@ public class SupermarketClientImp implements SupermarketClient {
 
   @Override
   public boolean registerSupermarket(String newName, String newPostcode) {
-    String request = "/registerSupermarket?business_name=newName&postcode=newPostcode";
-    boolean success;
-    String response = null;
-
+    String request = "/registerSupermarket?" +
+            "business_name=" + newName + "" +
+            "&postcode=" + newPostcode;
+    boolean success = false;
     try {
-      response = ClientIO.doPOSTRequest(endpoint, request);
-    } catch (Exception e) {
+      String response = ClientIO.doGETRequest(endpoint + request);
+      if (response == "already registered" || response == "registered new") {
+        success = true;
+        this.name = newName;
+        this.postcode = newPostcode;
+        this.registered = true;
+      }
+    }catch (Exception e) {
       e.printStackTrace();
-    }
-
-
-    if (response == "already registered" || response == "registered new") {
-      success = true;
-      this.name = newName;
-      this.postcode = newPostcode;
-      this.registered = true;
-
-    } else {
-      success = false;
-
     }
     return success;
   }
@@ -44,12 +38,13 @@ public class SupermarketClientImp implements SupermarketClient {
   @Override
   public boolean recordSupermarketOrder(String CHI, int orderNumber) {
     String request = "/recordSupermarketOrder" +
-            "?individual_id=CHI&order_number=order_number" +
-            "&supermarket_business_name=z&supermarket_postcode=w";
+            "?individual_id=" + CHI +
+            "&order_number=" + orderNumber +
+            "&supermarket_business_name=" +this.name+
+            "&supermarket_postcode=" + this.postcode;
     boolean success = false;
-    String response;
     try {
-      response = ClientIO.doPOSTRequest(endpoint, request);
+      String response = ClientIO.doGETRequest(endpoint + request);
       if (response == "True"){
         success = true;
       }
@@ -64,15 +59,14 @@ public class SupermarketClientImp implements SupermarketClient {
   @Override
   public boolean updateOrderStatus(int orderNumber, String newStatus) {
     String request = "/updateSupermarketOrderStatus?" +
-            "order_id=orderNumber&" +
-            "newStatus=newStatus";
-    boolean success = true;
-    String response = null;
+            "order_id=" + orderNumber +
+            "&newStatus=" + newStatus;
+    boolean success = false;
 
     try {
-      response = ClientIO.doPOSTRequest(endpoint, request);
-      if (response == "False") {
-        success = false;
+      String response = ClientIO.doPOSTRequest(endpoint, request);
+      if (response == "True") {
+        success = true;
       }
 
     } catch (Exception e) {
