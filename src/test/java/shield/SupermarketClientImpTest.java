@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
- *
+ * Class for testing all Supe
  */
 
 public class SupermarketClientImpTest {
@@ -41,6 +41,9 @@ public class SupermarketClientImpTest {
 
     return props;
   }
+  /**
+   * Sets what will be run before each test
+   */
 
   @BeforeEach
   public void setup() {

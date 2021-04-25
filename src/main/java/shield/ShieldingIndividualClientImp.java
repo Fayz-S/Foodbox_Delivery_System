@@ -5,16 +5,10 @@
 package shield;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
@@ -26,16 +20,15 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
   private String closestCateringName;
   private String closestCateringPostcode;
   private MessagingFoodBox chosenFoodBox;
-  private Object IllegalArgumentException;
 
-  final class Order {
+  static final class Order {
     String orderStatus;
     Integer orderId;
     MessagingFoodBox foodBox;
 
   }
 
-  final class MessagingFoodBox {
+  static final class MessagingFoodBox {
     List<foodBoxItem> contents;
     String delivered_by;
     String diet;
@@ -43,7 +36,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     String name;
   }
 
-  final class PersonalInfo {
+  static final class PersonalInfo {
     transient List<String> details;
 
     String postcode;
@@ -52,7 +45,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     String phoneNumber;
   }
 
-   final class foodBoxItem {
+   static final class foodBoxItem {
     transient List<String> contents;
     int id;
     String name;
@@ -299,10 +292,6 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     return this.CHI;
   }
 
-  public MessagingFoodBox getChosenFoodBox() {
-    return chosenFoodBox;
-  }
-
   @Override
   public int getFoodBoxNumber() {
     String request = "/showFoodBox?" +
@@ -545,6 +534,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
   public String getStatusForOrder(int orderNumber) {
     return getTargetOrder(orderNumber).orderStatus;
   }
+
   @Override
   public Collection<Integer> getItemIdsForOrder(int orderNumber) {
     List<Integer> itemIDs = new ArrayList<>();

@@ -7,12 +7,13 @@ import java.util.*;
 import java.time.LocalDateTime;
 import java.io.InputStream;
 import java.util.function.BooleanSupplier;
+import java.util.stream.IntStream;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
+ * All tests for the Shielding Individual Class
  */
 
 public class ShieldingIndividualClientImpTest {
@@ -21,6 +22,12 @@ public class ShieldingIndividualClientImpTest {
   private Properties clientProps;
   private ShieldingIndividualClient client;
   private CateringCompanyClientImp cateringCompanyClient;
+
+  /**
+   * Loads in data from cfg files
+   * @param propsFilename includes the File name
+   * @return props
+   */
 
   private Properties loadProperties(String propsFilename) {
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -41,6 +48,9 @@ public class ShieldingIndividualClientImpTest {
     return rand.nextInt((max - min) + 1) + min;
   }
 
+  /**
+   * Sets what will be run before each test
+   */
 
 
   @BeforeEach
@@ -51,7 +61,9 @@ public class ShieldingIndividualClientImpTest {
 
   }
 
-
+  /**
+   * Testing for success scenario of registering a new Shielding Individual
+   */
   @RepeatedTest(20)
   @DisplayName("registerSI Test: New User Success Scenario")
   public void testSuccessSINewRegistration() {
@@ -63,6 +75,11 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(client.registerShieldingIndividual(validCHI));
   }
 
+  /**
+   * Testing for failure scenarios of registering a new Shielding Individual.
+   * In each scenario I change one of each aspect that is checked in the checkValidCHI
+   * class, to ensure each check works correctly.
+   */
   @RepeatedTest(20)
   @DisplayName("registerSI: Failure Scenarios")
   public void testFailureSINewRegistration() {
@@ -86,19 +103,37 @@ public class ShieldingIndividualClientImpTest {
     assertFalse(client.registerShieldingIndividual(tooLongCHI));
   }
 
+  /**
+   * Testing for getting food boxes. It uses the provided food box file to check that
+   * the correct Ids are returned for each food box
+   */
   @Test
   @DisplayName("showFoodBoxes Test")
   public void testShowFoodBoxes() {
-    Collection<String> noneBoxIDs = client.showFoodBoxes("none");
+    List<String> noneBoxIDs = (List <String>) client.showFoodBoxes("none");
     assertEquals(3, noneBoxIDs.size());
-    Collection<String> pollotarianBoxIDs = client.showFoodBoxes("pollotarian");
-    assertEquals(1, pollotarianBoxIDs.size());
-    Collection<String> veganBoxIDs = client.showFoodBoxes("vegan");
-    assertEquals(1, veganBoxIDs.size());
+
+    List<String> correctIds = Arrays.asList("1","3","4");
+    IntStream.range(0, noneBoxIDs.size()).forEach(i -> assertEquals(noneBoxIDs.get(i), correctIds.get(i)));
+
+    List<String> pollotarianBoxIDs = (List <String>) client.showFoodBoxes("pollotarian");
+    assertEquals("2", pollotarianBoxIDs.get(0));
+
+    List<String> veganBoxIDs = (List<String>) client.showFoodBoxes("vegan");
+    assertEquals("5", veganBoxIDs.get(0));
+
     Collection<String> allBoxIDs = client.showFoodBoxes("");
     assertEquals(5, allBoxIDs.size());
   }
 
+  /**
+   * Testing for placing an order. It registers a caterer and a Shielding Individual,
+   * picks foodbox 1 and checks the following:
+   *
+   * - The order can be placed, with the request being valid
+   * - The order has indeed been added, and number of orders stored locally increases by 1
+   * - The status for the new order is that it has been placed
+   */
   @Test
   @DisplayName("placeOrder Test")
   public void testPlaceOrder() {
@@ -112,6 +147,14 @@ public class ShieldingIndividualClientImpTest {
     assertEquals("order has been placed", client.getStatusForOrder(orderId));
   }
 
+  /**
+   * Testing for editing an order. It checks the following:
+   *
+   * - You can register a shielding individual and a caterer
+   * - YOu can pick food box 1 and place an order
+   * - You can set a new item quantity using setItemQuantityForOrder
+   * - The new local food box can be submitted to change the order
+   */
   @Test
   @DisplayName("editOrder Test")
   public void testEditOrder() {
@@ -124,7 +167,14 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(client.editOrder(orderId));
 
   }
+  /**
+   * Testing for cancelling an order. It checks the following:
+   * - You can register a caterer and a Shielding Individual
+   * - You can pick food box 1 and place an order
+   * - The new order can be cancelled
+   * - The new order's status has been changed to "order has been cancelled"
 
+   */
   @Test
   @DisplayName("cancelOrder Test")
   public void testCancelOrder() {

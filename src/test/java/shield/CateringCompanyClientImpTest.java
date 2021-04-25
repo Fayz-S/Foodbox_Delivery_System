@@ -36,6 +36,9 @@ public class CateringCompanyClientImpTest {
     return props;
   }
 
+  /**
+   * Sets what will be run before each test
+  */
 
   @BeforeEach
   public void setup() {
@@ -69,10 +72,7 @@ public class CateringCompanyClientImpTest {
     }
   }
 
-    @Test
-    public void testUpdateOrderStatus () {
-
-
-    }
-
+  @Test
+  public void testUpdateOrderStatus() {
+  }
 }

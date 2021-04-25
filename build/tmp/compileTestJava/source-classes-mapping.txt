@@ -1,10 +1,10 @@
 shield/MyTestUtils.java
  shield.MyTestUtils
-shield/SupermarketClientImpTest.java
- shield.SupermarketClientImpTest
+shield/ShieldingIndividualClientImpTest.java
+ shield.ShieldingIndividualClientImpTest
 shield/DummyShieldingIndividualClientImpTest.java
  shield.DummyShieldingIndividualClientImpTest
 shield/CateringCompanyClientImpTest.java
  shield.CateringCompanyClientImpTest
-shield/ShieldingIndividualClientImpTest.java
- shield.ShieldingIndividualClientImpTest
+shield/SupermarketClientImpTest.java
+ shield.SupermarketClientImpTest
