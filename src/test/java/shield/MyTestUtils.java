@@ -6,11 +6,20 @@ import java.util.Random;
 
 
 public class MyTestUtils {
+  /**
+   * Generate Random Number
+   * @param min lower bound
+   * @param max upper bound
+   * @return returns random number (int) between min and max
+   */
   public static int generateRandomNumber(int min, int max) {
     Random rand = new Random();
     return rand.nextInt((max - min) + 1) + min;
   }
-
+  /**
+   * Generate Valid Postcode
+   * @return String, random valid postcode
+   */
   public static String generateValidPostcode() {
     return "EH" +
                generateRandomNumber(1, 99) +
@@ -19,7 +28,10 @@ public class MyTestUtils {
                (char) (new Random().nextInt(26) + 'A') +
                (char) (new Random().nextInt(26) + 'A');
   }
-
+  /**
+   * Generate Invalid Postcodes
+   * @return List of String, random Invalid postcodes
+   */
   public static List<String> generateInvalidPostcodes() {
     String validPostcode = generateValidPostcode();
     List<String> invalidPostcodes = new ArrayList<>();
@@ -47,7 +59,12 @@ public class MyTestUtils {
     }
     return invalidPostcodes;
   }
-
+  /**
+   * swapCharNumber - swaps char to int or int to char
+   * @param str String
+   * @param position position of target element in string
+   * @return returns string with element swapped in string
+   */
   public static String swapCharNumber(String str, int position) {
     String returnStr = str;
     if (Character.isAlphabetic(str.charAt(position))) {
@@ -64,11 +81,18 @@ public class MyTestUtils {
 
     return returnStr;
   }
-
+  /**
+   * formatForValidCHI - places a zero before any single digit number in String
+   * @param num String
+   * @return returns valid format for CHI
+   */
   public static String formatForValidCHI(int num) {
     return (num < 10 && num > -10 ? "0" : "") + num;
   }
-
+  /**
+   * generateValidCHI
+   * @return returns valid CHI
+   */
   public static String generateValidCHI() {
     String day = formatForValidCHI(generateRandomNumber(1, 31));
     String month = formatForValidCHI(generateRandomNumber(1, 12));

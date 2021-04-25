@@ -6,7 +6,14 @@ import java.util.Locale;
 import java.util.Random;
 
 
+
 public class MyImpUtils {
+
+    /**
+     * Checks validity of postcode
+     * @param postcode String
+     * @return true if postcode passes all checks, else returns false
+     */
     public static boolean checkValidPostcode (String postcode) {
         if (postcode.length() == 7) {
             return postcode.toUpperCase(Locale.ROOT).startsWith("EH") &&
