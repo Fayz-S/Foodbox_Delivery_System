@@ -576,7 +576,9 @@ def record_supermarket_order():
         individual_id = request.args['individual_id']
         supermarket_id = get_supermarket_id(request.args.get('supermarket_business_name'), request.args.get('supermarket_postcode'))
 
-        if order_exists(order_number): return 'False'
+        if order_exists(order_number):
+            print("order exists")
+            return 'False'
 
         with lock:
             #num_lines = sum(1 for line in open(sup_orders_file))

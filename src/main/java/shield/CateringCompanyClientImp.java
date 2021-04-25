@@ -1,38 +1,33 @@
 package shield;
 
 
-import com.google.gson.Gson;
-
 public class CateringCompanyClientImp implements CateringCompanyClient {
   final private String endpoint;
   private String name;
   private String postcode;
   private boolean registered = false;
 
-  static final class CatererDetails {
-    String name;
-    String postcode;
-  }
-
   public CateringCompanyClientImp(String endpoint) {
     this.endpoint = endpoint;
   }
+
+
   @Override
-
   public boolean registerCateringCompany(String newName, String newPostcode) {
-    boolean success = false;
-    String response = "not registered";
 
+    if (!MyImpUtils.checkValidPostcode(newPostcode)) {
+      return false;
+    }
+    boolean success = false;
     String request = "/registerCateringCompany?" +
             "business_name=" + newName +
             "&postcode=" + newPostcode;
-    System.out.println(endpoint+request);
-
 
     try {
-      response = ClientIO.doGETRequest(this.endpoint + request);
-      System.out.println("Success!");
-      if (response.equals("already registered") || response.equals("registered new")) {
+      String response = ClientIO.doGETRequest(this.endpoint + request);
+//        System.out.println("Success!");
+      if (response.equals("already registered")) success = true;
+      else if (response.equals("registered new")) {
         this.name = newName;
         this.postcode = newPostcode;
         this.registered = true;
@@ -40,7 +35,7 @@ public class CateringCompanyClientImp implements CateringCompanyClient {
       }
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("Failed");
+//        System.out.println("Failed");
     }
     return success;
   }
