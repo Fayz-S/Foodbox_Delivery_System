@@ -1,29 +1,23 @@
 shield/ShieldingIndividualClientEndpoints.java
  shield.ShieldingIndividualClientEndpoints
-shield/MyImpUtils.java
- shield.MyImpUtils
+shield/SupermarketClient.java
+ shield.SupermarketClient
 shield/SupermarketClientEndpoints.java
  shield.SupermarketClientEndpoints
 shield/ClientIO.java
  shield.ClientIO
 shield/CateringCompanyClient.java
  shield.CateringCompanyClient
-shield/Main.java
- shield.Main
+shield/ShieldingIndividualClient.java
+ shield.ShieldingIndividualClient
 shield/CateringCompanyClientEndpoints.java
  shield.CateringCompanyClientEndpoints
 shield/SupermarketClientImp.java
  shield.SupermarketClientImp
+shield/MyImpUtils.java
+ shield.MyImpUtils
 shield/CateringCompanyClientImp.java
  shield.CateringCompanyClientImp
-shield/ShieldingIndividualClient.java
- shield.ShieldingIndividualClient
-shield/SupermarketClient.java
- shield.SupermarketClient
-shield/DummyShieldingIndividualClientImp.java
- shield.DummyShieldingIndividualClientImp
- shield.DummyShieldingIndividualClientImp$1
- shield.DummyShieldingIndividualClientImp$MessagingFoodBox
 shield/ShieldingIndividualClientImp.java
  shield.ShieldingIndividualClientImp
  shield.ShieldingIndividualClientImp$1
