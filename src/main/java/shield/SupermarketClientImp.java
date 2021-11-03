@@ -46,6 +46,7 @@ public class SupermarketClientImp implements SupermarketClient {
     boolean success = false;
     try {
       String response = ClientIO.doGETRequest(endpoint + request);
+      System.out.println("");
 
       if (response.equals("True")){
         success = true;

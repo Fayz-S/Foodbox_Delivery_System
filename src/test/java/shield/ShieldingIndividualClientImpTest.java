@@ -24,11 +24,10 @@ public class ShieldingIndividualClientImpTest {
   private CateringCompanyClientImp cateringCompanyClient;
 
   /**
-   * Loads in data from cfg files
-   * @param propsFilename includes the File name
-   * @return props
+   * Gets property object from cfg file so that we can get address for HTTP requests
+   * @param propsFilename filename to load server address from
+   * @return a properties file that is used to get the address for the HTTP Requests
    */
-
   private Properties loadProperties(String propsFilename) {
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
     Properties props = new Properties();
@@ -43,16 +42,9 @@ public class ShieldingIndividualClientImpTest {
     return props;
   }
 
-  public int generateRandomNumber(int min, int max) {
-    Random rand = new Random();
-    return rand.nextInt((max - min) + 1) + min;
-  }
-
   /**
    * Sets what will be run before each test
    */
-
-
   @BeforeEach
   public void setup() {
     clientProps = loadProperties(clientPropsFilename);
@@ -62,38 +54,39 @@ public class ShieldingIndividualClientImpTest {
   }
 
   /**
-   * Testing for success scenario of registering a new Shielding Individual
+   * Test for registering a new Shielding Individual
+   * The test implements and/or tests the following:
+   * 
+   * - Registering a new Shielding Individual with a valid CHI, using the method
+   *   obtained from <code>generateValidCHI()</code> from the class <code>MyTestUtils</code>
+   * - Checking that the private variables <code>CHI, registered</code> have 
+   *   been given the correct values.
+   * - Checking that a re-registration returns true
+   * - Generating invalid CHI's by changing the day, month and year individually
+   *   to invalid values and asserting that the <code>shieldingIndividualNewRegistration</code>
+   *   method returns false.
    */
   @RepeatedTest(20)
   @DisplayName("registerSI Test: New User Success Scenario")
-  public void testSuccessSINewRegistration() {
+  public void testShieldingIndividualNewRegistration() {
     String validCHI = MyTestUtils.generateValidCHI();
 
     assertTrue(client.registerShieldingIndividual(validCHI));
     assertTrue(client.isRegistered());
     assertEquals(client.getCHI(), validCHI);
     assertTrue(client.registerShieldingIndividual(validCHI));
-  }
 
-  /**
-   * Testing for failure scenarios of registering a new Shielding Individual.
-   * In each scenario I change one of each aspect that is checked in the checkValidCHI
-   * class, to ensure each check works correctly.
-   */
-  @RepeatedTest(20)
-  @DisplayName("registerSI: Failure Scenarios")
-  public void testFailureSINewRegistration() {
-    String invalidMax = String.valueOf(generateRandomNumber(32, 99));
-    String invalidMin = MyTestUtils.formatForValidCHI(generateRandomNumber(-99, 0));
-    String invalidCHIMax = invalidMax + "01" + generateRandomNumber(100000, 999999);
-    String invalidCHIMin = invalidMin + "01" + generateRandomNumber(100000, 999999);
+    String invalidMax = String.valueOf(MyTestUtils.generateRandomNumber(32, 99));
+    String invalidMin = MyTestUtils.formatForValidCHI(MyTestUtils.generateRandomNumber(-99, 0));
+    String invalidCHIMax = invalidMax + "01" + MyTestUtils.generateRandomNumber(100000, 999999);
+    String invalidCHIMin = invalidMin + "01" + MyTestUtils.generateRandomNumber(100000, 999999);
     assertFalse(client.registerShieldingIndividual(invalidCHIMax));
     assertFalse(client.registerShieldingIndividual(invalidCHIMin));
 
-    invalidMax = MyTestUtils.formatForValidCHI(generateRandomNumber(13, 99));
-    invalidMin = MyTestUtils.formatForValidCHI(generateRandomNumber(-99, 0));
-    invalidCHIMax = "01" + invalidMax + generateRandomNumber(100000, 999999);
-    invalidCHIMin = "01" + invalidMin + generateRandomNumber(100000, 999999);
+    invalidMax = MyTestUtils.formatForValidCHI(MyTestUtils.generateRandomNumber(13, 99));
+    invalidMin = MyTestUtils.formatForValidCHI(MyTestUtils.generateRandomNumber(-99, 0));
+    invalidCHIMax = "01" + invalidMax + MyTestUtils.generateRandomNumber(100000, 999999);
+    invalidCHIMin = "01" + invalidMin + MyTestUtils.generateRandomNumber(100000, 999999);
     assertFalse(client.registerShieldingIndividual(invalidCHIMax));
     assertFalse(client.registerShieldingIndividual(invalidCHIMin));
 
@@ -104,34 +97,36 @@ public class ShieldingIndividualClientImpTest {
   }
 
   /**
-   * Testing for getting food boxes. It uses the provided food box file to check that
-   * the correct Ids are returned for each food box
+   * Test for getting Food Boxes.
+   * It uses the provided Food Box file to check that the correct Ids are returned 
+   * for each Food Box using the <code>showFoodBoxes</code> method.
+   * to get the number of Food Boxes in the <code>food_box.txt</code> file
    */
   @Test
   @DisplayName("showFoodBoxes Test")
   public void testShowFoodBoxes() {
-    List<String> noneBoxIDs = (List <String>) client.showFoodBoxes("none");
+    List<String> noneBoxIDs = (List<String>) client.showFoodBoxes("none");
     assertEquals(3, noneBoxIDs.size());
 
-    List<String> correctIds = Arrays.asList("1","3","4");
+    List<String> correctIds = Arrays.asList("1", "3", "4");
     IntStream.range(0, noneBoxIDs.size()).forEach(i -> assertEquals(noneBoxIDs.get(i), correctIds.get(i)));
-
-    List<String> pollotarianBoxIDs = (List <String>) client.showFoodBoxes("pollotarian");
+    
+    List<String> pollotarianBoxIDs = (List<String>) client.showFoodBoxes("pollotarian");
     assertEquals("2", pollotarianBoxIDs.get(0));
 
     List<String> veganBoxIDs = (List<String>) client.showFoodBoxes("vegan");
     assertEquals("5", veganBoxIDs.get(0));
 
     Collection<String> allBoxIDs = client.showFoodBoxes("");
-    assertEquals(5, allBoxIDs.size());
+    assertEquals(client.getFoodBoxNumber(), allBoxIDs.size());
   }
 
   /**
-   * Testing for placing an order. It registers a caterer and a Shielding Individual,
-   * picks foodbox 1 and checks the following:
-   *
-   * - The order can be placed, with the request being valid
-   * - The order has indeed been added, and number of orders stored locally increases by 1
+   * Test for placing an order. This implements and/or tests the following:
+   * - Registering a new catering company and a Shielding Individual,
+   * - Picking Food Box 1 and placing the order
+   * - The number of orders obtained using the <code>getOrderNumbers()</code> method 
+   *   has increased  by 1.
    * - The status for the new order is that it has been placed
    */
   @Test
@@ -148,12 +143,14 @@ public class ShieldingIndividualClientImpTest {
   }
 
   /**
-   * Testing for editing an order. It checks the following:
-   *
-   * - You can register a shielding individual and a caterer
-   * - YOu can pick food box 1 and place an order
-   * - You can set a new item quantity using setItemQuantityForOrder
-   * - The new local food box can be submitted to change the order
+   * Test for editing an order. This implements and/or tests the following:
+   * - Registering a new catering company and a shielding individual.
+   * - Picking Food Box 1 and placing an order.
+   * - Getting the orderID using <code>getOrderNumbers</code> Only one order has
+   *   been placed for this client, so index 0 will contain the order that was placed.
+   * - Set a new item quantity using <code>setItemQuantityForOrder</code>
+   * - Using the <code>editOrder</code> method to send the edited Food Box to the
+   *   server.
    */
   @Test
   @DisplayName("editOrder Test")
@@ -167,13 +164,17 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(client.editOrder(orderId));
 
   }
-  /**
-   * Testing for cancelling an order. It checks the following:
-   * - You can register a caterer and a Shielding Individual
-   * - You can pick food box 1 and place an order
-   * - The new order can be cancelled
-   * - The new order's status has been changed to "order has been cancelled"
 
+  /**
+   * Test for editing an order. This implements and/or tests the following:
+   * - Registering a new catering company and a shielding individual.
+   * - Picking Food Box 1 and placing an order.
+   * - Getting the orderID using <code>getOrderNumbers</code> Only one order has
+   *   been placed for this client, so index 0 will contain the order that was placed
+   * - USing <code>cancelOrder()</code> to cancel the order.
+   * - Getting the new orderStatus using the methods <code>requestOrderStatus</code>
+   *   and <code>getStatusForOrder</code> to check that the status for the order
+   *   has been changed, and that the order has indeed been cancelled.
    */
   @Test
   @DisplayName("cancelOrder Test")
@@ -182,61 +183,91 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(cateringCompanyClient.registerCateringCompany("c", MyTestUtils.generateValidPostcode()));
     assertTrue(client.pickFoodBox(1));
     assertTrue(client.placeOrder());
-    assertEquals(1, client.getOrderNumbers().size());
     int orderId = ((List<Integer>) client.getOrderNumbers()).get(0);
     assertTrue(client.cancelOrder(orderId));
     client.requestOrderStatus(orderId);
     assertEquals("order has been cancelled", client.getStatusForOrder(orderId));
   }
 
+  /**
+   * Test for requesting the status of an order. This implements and/or tests the following:
+   * - Registering a new Catering Company and a Shielding Individual.
+   * - Picking Food Box 1, places an order and checking the status is correct.
+   * - Updating t
+   * - For the order being placed, packed and dispatched, it uses the updateOrderStatus
+   * from the caterer class, requests the status to change it locally and asserts that
+   * new status is correct.
+   * - For order cancelled, it cancels the order, requests the status and checks it is
+   * correct.
+   */
   @Test
   @DisplayName("requestOrderStatus Test")
   public void testRequestOrderStatus() {
     assertTrue(client.registerShieldingIndividual(MyTestUtils.generateValidCHI()));
     assertTrue(cateringCompanyClient.registerCateringCompany("c", MyTestUtils.generateValidPostcode()));
     assertTrue(client.pickFoodBox(1));
-    assertTrue(client.placeOrder());
-
-    int orderId = ((List<Integer>) client.getOrderNumbers()).get(0);
-    client.requestOrderStatus(orderId);
-    assertEquals("order has been placed", client.getStatusForOrder(orderId));
-
-    assertTrue(cateringCompanyClient.updateOrderStatus(orderId, "packed"));
-    client.requestOrderStatus(orderId);
-    assertEquals("order is packed", client.getStatusForOrder(orderId));
-
-    assertTrue(cateringCompanyClient.updateOrderStatus(orderId, "dispatched"));
-    client.requestOrderStatus(orderId);
-    assertEquals("order has been dispatched", client.getStatusForOrder(orderId));
-
-    assertTrue(cateringCompanyClient.updateOrderStatus(orderId, "delivered"));
-    client.requestOrderStatus(orderId);
-    assertEquals("order has been delivered", client.getStatusForOrder(orderId));
 
     assertTrue(client.placeOrder());
-    orderId = ((List<Integer>) client.getOrderNumbers()).get(1);
-    assertTrue(client.cancelOrder(orderId));
-    client.requestOrderStatus(orderId);
-    assertEquals("order has been cancelled", client.getStatusForOrder(orderId));
+    assertTrue(client.placeOrder());
+    assertTrue(client.placeOrder());
+    assertTrue(client.placeOrder());
+    assertTrue(client.placeOrder());
+
+    // this is needed for the integration test with getStatusFromOrder
+    int orderIdPlaced = ((List<Integer>) client.getOrderNumbers()).get(0);
+    int orderIdPacked = ((List<Integer>) client.getOrderNumbers()).get(1);
+    int orderIdDispatched = ((List<Integer>) client.getOrderNumbers()).get(2);
+    int orderIdDelivered = ((List<Integer>) client.getOrderNumbers()).get(3);
+    int orderIdCancelled = ((List<Integer>) client.getOrderNumbers()).get(4);
+
+    assertTrue(cateringCompanyClient.updateOrderStatus(orderIdPacked, "packed"));
+    assertTrue(cateringCompanyClient.updateOrderStatus(orderIdDispatched, "dispatched"));
+    assertTrue(cateringCompanyClient.updateOrderStatus(orderIdDelivered, "delivered"));
+    assertTrue(client.cancelOrder(orderIdCancelled));
+
+    assertTrue(client.requestOrderStatus(orderIdPacked));
+    assertTrue(client.requestOrderStatus(orderIdDispatched));
+    assertTrue(client.requestOrderStatus(orderIdDelivered));
+    assertTrue(client.requestOrderStatus(orderIdCancelled));
   }
 
+  /**
+   * Testing for getting all the catering companies.
+   * This implements and/or tests the following:
+   * - Getting the current number of catering companies
+   * - Using the pre set value x in <code>newRegistrations</code> to register x
+   *   new catering companies
+   * - Obtating the new number of catering companies, and asserting that this
+   *   value has increased by x
+   */
   @Test
   @DisplayName("getCateringCompanies Test")
   public void testGetCateringCompanies() {
     int newRegistrations = 10;
     int currentSize = client.getCateringCompanies().size();
     for (int i = 0; i < newRegistrations; i++) {
-      client.registerShieldingIndividual(MyTestUtils.generateValidCHI());
+      cateringCompanyClient.registerCateringCompany("Caterer", MyTestUtils.generateValidPostcode());
     }
     int newSize = client.getCateringCompanies().size();
-    assertFalse(newSize - currentSize == 10);
+    assertEquals(10, newSize - currentSize);
   }
 
+  /**
+   * Test for getting distance between two postcodes.
+   * This implements and/or tests the following:
+   * - Generating two valid postcodes via the <code>generateValidPostcode</code>
+   *   method from the <code>MyTestUtils</code> class
+   * - Asserting that using the method <code>getDistance</code> on the same postcode
+   *   returns a value of 0.
+   * - Checking that, if two generated postcodes are not the same, that the value
+   *   generated by <code>getDistance</code> is greater that 0.
+   */
   @RepeatedTest(20)
   @DisplayName("getDistance Test")
   public void testGetDistance() {
     String postcode1 = MyTestUtils.generateValidPostcode();
     String postcode2 = MyTestUtils.generateValidPostcode();
+    assertEquals(0.0, client.getDistance(postcode1, postcode1));
     if (postcode1.equals(postcode2)) {
       assertEquals(0.0, client.getDistance(postcode1, postcode2));
     } else {
@@ -244,14 +275,25 @@ public class ShieldingIndividualClientImpTest {
     }
   }
 
+  /**
+   * Test for getting the number of available Food Boxes. This checks that the
+   * number of Food Boxes obtained via <code>getFoodBoxNumber()</code> is 5, which
+   * is the number of Food Boxes in the <code>food_boxes.txt</code> file from the
+   * server files.
+   */
   @Test
   @DisplayName("getFoodBoxNumber Test")
   public void testGetFoodBoxNumber() {
-    int response = client.getFoodBoxNumber();
-    assertTrue(response == 5);
+    assertEquals(5, client.getFoodBoxNumber());
 
   }
 
+  /**
+   * Test for getting the dietary preference of the available Food Boxes.
+   * This checks that for each Food Box ID in the <code>food_boxes.txt</code> file,
+   * the correct diet type is returned. These correct types are obtained directly
+   * from the file <code>food_boxes.txt</code> from the server files.
+   */
   @Test
   @DisplayName("getDietaryPreferenceForFoodBox Test")
   public void testGetDietaryPreferenceForFoodBox() {
@@ -263,6 +305,12 @@ public class ShieldingIndividualClientImpTest {
 
   }
 
+  /**
+   * Test for getting the number of items in each of the available Food Boxes.
+   * It checks for each Food Box ID in the <code>food_boxes.txt</code> file, the
+   * correct number of items are returned. These correct types are obtained directly
+   * from the file <code>food_boxes.txt</code> from the server files.
+   */
   @Test
   @DisplayName("getItemsNumberForFoodBox Test")
   public void testGetItemsNumberForFoodBox() {
@@ -273,6 +321,12 @@ public class ShieldingIndividualClientImpTest {
     assertEquals(3, client.getItemsNumberForFoodBox(5));
   }
 
+  /**
+   * Test for getting the item IDs in each of the available Food Boxes.
+   * It checks for each Food Box ID in the <code>food_boxes.txt</code> file, the
+   * correct item ID for each item is returned. These correct types are obtained
+   * directly from the file <code>food_boxes.txt</code> from the server files
+   */
   @Test
   @DisplayName("getItemIdsForFoodBox Test")
   public void testGetItemIdsForFoodBox() {
@@ -283,9 +337,19 @@ public class ShieldingIndividualClientImpTest {
     assertEquals(Arrays.asList(9, 11, 12), client.getItemIdsForFoodBox(5));
   }
 
+  /**
+   * Test for getting the item names of the available Food Boxes.
+   * This implements and/or tests the following:
+   * - Checking that using the <code>getItemNameForFoodBox</code> method for an
+   *   item not in a Food Fox will return false.
+   * - Checking that for every Food Box, the correct name is returned from the
+   *   corresponding item, using the <code>getItemNameForFoodBox</code> method.
+   */
   @Test
   @DisplayName("getItemNameForFoodBox Test")
   public void testGetItemNameForFoodBox() {
+    assertEquals("Not Found", client.getItemNameForFoodBox(3,1));
+
     assertEquals("cucumbers", client.getItemNameForFoodBox(1, 1));
     assertEquals("tomatoes", client.getItemNameForFoodBox(2, 1));
     assertEquals("pork", client.getItemNameForFoodBox(6, 1));
@@ -308,6 +372,13 @@ public class ShieldingIndividualClientImpTest {
     assertEquals("mango", client.getItemNameForFoodBox(12, 5));
   }
 
+  /**
+   * Test for getting the item quantities of the available Food Boxes.
+   * It checks for each Food Box ID in the <code>food_boxes.txt</code> file, the
+   * correct item quantity for each item is returned. These correct types are obtained
+   * directly from the file <code>food_boxes.txt</code> from the server files.
+   * It also checks that 0 is returned for every item that is not in the Food Box.
+   */
   @Test
   @DisplayName("getItemQuantityForFoodBox Test")
   public void testGetItemQuantityForFoodBox() {
@@ -359,6 +430,15 @@ public class ShieldingIndividualClientImpTest {
 
   }
 
+  /**
+   * Test for picking Food Boxes locally.
+   * This implements and/or tests the following:
+   *
+   * - Registering a new shielding individual
+   * - Using the <code>pickFoodBox</code> method to select each the Food Boxes in the
+   *   <code>food_boxes.txt</code> file from the server.
+   * - Getting a false response when an invalid Food Box ID is used.
+   */
   @Test
   @DisplayName("pickFoodBox Test")
   public void testPickFoodBox() {
@@ -371,15 +451,46 @@ public class ShieldingIndividualClientImpTest {
     assertFalse(client.pickFoodBox(6));
   }
 
+  /**
+   * Test for changing the quantity of an item from the locally picked Food Box.
+   * This implements and/or checks the following:
+   *
+   * - Picking Food Box 1 using the <code>pickFoodBox</code> method
+   * - Asserting that the correct error message is thrown when using a
+   *   negative quantity.
+   * - Asserting that False is returned when using a new quantity that is the
+   *   same as the items current quantity.
+   * - Asserting that True is returned when using a new quantity that is smaller
+   *   than the items current quantity.
+   * - Asserting that False is returned when trying to make all quantities 0. This
+   *   is done in the last assertion.
+   */
   @Test
   @DisplayName("changeItemQuantityForPickedFoodBox Test")
   public void testChangeItemQuantityForPickedFoodBox() {
     client.pickFoodBox(1);
+    try {
+      client.changeItemQuantityForPickedFoodBox(1, -1);
+    } catch (Exception e) {
+      assertEquals("Error: Cannot use negative quantity", e.getMessage());
+    }
     assertFalse(client.changeItemQuantityForPickedFoodBox(1, 1));
+    assertTrue(client.changeItemQuantityForPickedFoodBox(1, 0));
     assertTrue(client.changeItemQuantityForPickedFoodBox(2, 1));
+    assertTrue(client.changeItemQuantityForPickedFoodBox(2, 0));
     assertFalse(client.changeItemQuantityForPickedFoodBox(6, 1));
+    assertFalse(client.changeItemQuantityForPickedFoodBox(6, 0));
+
   }
 
+  /**
+   * Test for getting all the locally stored order numbers.
+   * This implements and/or tests the following:
+   * - Registering a new catering company and shielding individual
+   * - Picking Food Box 1 from the <code>food_box.txt</code> on the server
+   * - Placing three orders, and checking that each time the number of order numbers
+   *  obtained via the <code>getOrderNumbers()</code> function increases by 1
+   */
   @Test
   @DisplayName("getOrderNumbers Test")
   public void testGetOrderNumbers() {
@@ -394,9 +505,23 @@ public class ShieldingIndividualClientImpTest {
     assertEquals(3, client.getOrderNumbers().size());
   }
 
+  /**
+   * Test for getting the status of an order stored locally.
+   * This implements and/or tests the following:
+   *
+   * - Registering a new catering company and shielding individual.
+   * - Picking Food Box 1 from the <code>food_box.txt</code> on the server and
+   *   placing 5 orders.
+   * - Getting the 5 different order ID's and using a each of the different status
+   *   to update the status of each of the orders via the <code>requestOrderStatus</code>
+   *   method from the <code>CateringCompanyClientImp</code> class
+   * - Requesting each of the new order status' and asserting that the correct
+   *   order status has been given for each order.
+   */
   @Test
   @DisplayName("getStatusForOrder Test")
   public void testGetStatusForOrder() {
+
     assertTrue(client.registerShieldingIndividual(MyTestUtils.generateValidCHI()));
     assertTrue(cateringCompanyClient.registerCateringCompany("c", MyTestUtils.generateValidPostcode()));
     assertTrue(client.pickFoodBox(1));
@@ -407,6 +532,7 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(client.placeOrder());
     assertTrue(client.placeOrder());
 
+    // this is needed for the integration test with getStatusFromOrder
     int orderIdPlaced = ((List<Integer>) client.getOrderNumbers()).get(0);
     int orderIdPacked = ((List<Integer>) client.getOrderNumbers()).get(1);
     int orderIdDispatched = ((List<Integer>) client.getOrderNumbers()).get(2);
@@ -423,7 +549,6 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(client.requestOrderStatus(orderIdDelivered));
     assertTrue(client.requestOrderStatus(orderIdCancelled));
 
-
     assertEquals("order has been placed", client.getStatusForOrder(orderIdPlaced));
     assertEquals("order is packed", client.getStatusForOrder(orderIdPacked));
     assertEquals("order has been dispatched", client.getStatusForOrder(orderIdDispatched));
@@ -431,30 +556,51 @@ public class ShieldingIndividualClientImpTest {
     assertEquals("order has been cancelled", client.getStatusForOrder(orderIdCancelled));
   }
 
+  /**
+   * Test for getting the Item IDs a locally stored order.
+   * This implements and/or tests the following:
+   * - Registering a new catering company and shielding individual.
+   * - Picking Food Box 1 from the <code>food_box.txt</code> on the server and
+   *   placing an order
+   * - Getting the the order number for placed order, using it to get the
+   *   Item IDs, and comparing the returned IDs to the correct IDs. The
+   *   correct IDs were obtained via the <code>food_box.txt</code> file.
+   * - Repeating these steps from picking the Food Box except using Food Box
+   *   4 (has 4 items whereas Food Box 1 has 3)
+   */
   @Test
   @DisplayName("getItemIdsForOrder Test")
   public void testGetItemIdsForOrder() {
     assertTrue(client.registerShieldingIndividual(MyTestUtils.generateValidCHI()));
     assertTrue(cateringCompanyClient.registerCateringCompany("c", MyTestUtils.generateValidPostcode()));
+
     assertTrue(client.pickFoodBox(1));
     assertTrue(client.placeOrder());
-    assertTrue(client.pickFoodBox(4));
-    assertTrue(client.placeOrder());
-
     int orderId = ((List<Integer>) client.getOrderNumbers()).get(0);
     List<Integer> itemIds = (List<Integer>) client.getItemIdsForOrder(orderId);
     List<Integer> correctIds = Arrays.asList(1, 2, 6);
-    for (int i = 0; i < itemIds.size(); i++) {
-      assertEquals(itemIds.get(i), correctIds.get(i));
-    }
+    assertEquals(itemIds, correctIds);
+
+    assertTrue(client.pickFoodBox(4));
+    assertTrue(client.placeOrder());
     orderId = ((List<Integer>) client.getOrderNumbers()).get(1);
     itemIds = (List<Integer>) client.getItemIdsForOrder(orderId);
     correctIds = Arrays.asList(13, 11, 8, 9);
-    for (int i = 0; i < itemIds.size(); i++) {
-      assertEquals(itemIds.get(i), correctIds.get(i));
-    }
+    assertEquals(itemIds, correctIds);
   }
 
+  /**
+   * Test for getting the Item names a locally stored order.
+   * This implements and/or tests the following:
+   * - Registering a new catering company and shielding individual.
+   * - Picking Food Box 1 from the <code>food_box.txt</code> on the server and
+   *   placing an order
+   * - Getting the the order number for placed order, using it to get the
+   *   Item names, and comparing the returned names to the correct names. The
+   *   correct names were obtained via the <code>food_box.txt</code> file.
+   * - Repeating these steps from picking the Food Box except using Food Box
+   *   4 (has 4 items whereas Food Box 1 has 3).
+   */
   @Test
   @DisplayName("getItemNameForOrder Test")
   public void testGetItemNameForOrder() {
@@ -470,6 +616,7 @@ public class ShieldingIndividualClientImpTest {
       String itemName = client.getItemNameForOrder(correctIds.get(i), orderId);
       assertEquals(correctNames.get(i), itemName);
     }
+
     assertTrue(client.pickFoodBox(4));
     assertTrue(client.placeOrder());
     orderId = ((List<Integer>) client.getOrderNumbers()).get(1);
@@ -481,6 +628,19 @@ public class ShieldingIndividualClientImpTest {
     }
   }
 
+  /**
+   * Test for getting the Item quantities of a locally stored order.
+   * This implements and/or tests the following:
+   *
+   * - Registering a new catering company and shielding individual.
+   * - Picking Food Box 1 from the <code>food_box.txt</code> on the server and
+   *   placing an order
+   * - Getting the the order number for placed order, using it to get the
+   *   Item quantities, and comparing the returned quantities to the correct quantities.
+   *   The correct quantities were obtained via the <code>food_box.txt</code> file.
+   * - Repeating these steps from picking the Food Box except using Food Box
+   *   4 (has 4 items whereas Food Box 1 has 3)
+   */
   @Test
   @DisplayName("getItemQuantityForOrder Test")
   public void testGetItemQuantityForOrder() {
@@ -491,11 +651,12 @@ public class ShieldingIndividualClientImpTest {
     assertTrue(client.placeOrder());
     int orderId = ((List<Integer>) client.getOrderNumbers()).get(0);
     List<Integer> correctIds = Arrays.asList(1, 2, 6);
-    List<Integer> correctQuantities = Arrays.asList(1,2,1);
+    List<Integer> correctQuantities = Arrays.asList(1, 2, 1);
     for (int i = 0; i < correctIds.size(); i++) {
       int itemQuantity = client.getItemQuantityForOrder(correctIds.get(i), orderId);
       assertEquals((int) correctQuantities.get(i), itemQuantity);
     }
+
     assertTrue(client.pickFoodBox(4));
     assertTrue(client.placeOrder());
     orderId = ((List<Integer>) client.getOrderNumbers()).get(1);
@@ -507,6 +668,20 @@ public class ShieldingIndividualClientImpTest {
     }
   }
 
+  /**
+   * Test for setting the quantity of an item in a locally stored order.
+   * This implements  and/or tests the following:
+   *
+   * - Registering a new catering company and shielding individual.
+   * - Picking Food Box 1 from the <code>food_box.txt</code> on the server and
+   *   placing an order
+   * - Getting the the order number for the placed order
+   * - Checking that the item quantity is the pre set value given by
+   *   <code>food_boxes.txt</code>
+   * - Setting the new quantity for the item using the <code>setItemQuantityForOrder</code>
+   *   method
+   * - Checking that the item quantity matches the new quantity.
+   */
   @Test
   @DisplayName("setItemQuantityForOrder Test")
   public void testSetItemQuantityForOrder() {
@@ -520,20 +695,30 @@ public class ShieldingIndividualClientImpTest {
     assertEquals(1, client.getItemQuantityForOrder(2, orderId));
   }
 
+  /**
+   * Test for getting the closest catering company.
+   * This implements  and/or tests the following:
+   *
+   * - Registering 5 new catering companies.
+   * - Checking that the correct error message is thrown when the function
+   *   tries to run without the user having registered(therefore the postcode
+   *   of the user is a null value)
+   * - Registering a new shielding individual and checking that a string is returned.
+   */
   @Test
   @DisplayName("getClosestCateringCompany Test")
   public void testGetClosestCateringCompany() {
-    cateringCompanyClient.registerCateringCompany("Portrait_Gallery", "EH4_3DR");
-    cateringCompanyClient.registerCateringCompany("National_Museum", "EH1_1JF");
-    cateringCompanyClient.registerCateringCompany("The_Mound", "EH2_2EL");
-    cateringCompanyClient.registerCateringCompany("Appleton_Tower", "EH4_3DR");
-    cateringCompanyClient.registerCateringCompany("Start_of_Meadow_Walk", "EH9_1LY");
+    assertTrue(cateringCompanyClient.registerCateringCompany("Portrait_Gallery", "EH4_3DR"));
+    assertTrue(cateringCompanyClient.registerCateringCompany("National_Museum", "EH1_1JF"));
+    assertTrue(cateringCompanyClient.registerCateringCompany("The_Mound", "EH2_2EL"));
+    assertTrue(cateringCompanyClient.registerCateringCompany("Appleton_Tower", "EH4_3DR"));
+    assertTrue(cateringCompanyClient.registerCateringCompany("Start_of_Meadow_Walk", "EH9_1LY"));
     try {
       client.getClosestCateringCompany();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(e.getMessage(), "Shielding User postcode or caterer postcode was invalid");
     }
-      client.registerShieldingIndividual(MyTestUtils.generateValidCHI());
+    client.registerShieldingIndividual(MyTestUtils.generateValidCHI());
+    assertEquals(client.getClosestCateringCompany().getClass(), String.class);
   }
 }

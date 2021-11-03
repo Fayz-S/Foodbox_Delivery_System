@@ -9,13 +9,14 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
   final private String endpoint;
   private String CHI;
   private boolean registered;
-  final private List <Order> orders = new ArrayList<>();
+  final private HashMap<Integer, Order> orders = new HashMap<Integer, Order>();
   final private PersonalInfo personalInfo = new PersonalInfo();
   private String closestCateringName;
   private String closestCateringPostcode;
@@ -63,6 +64,12 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     this.registered = false;
   }
 
+  /**
+   * validateCHI
+   * Confirms that a CHI number is in the correct format
+   * @param CHI CHI number in String format
+   * @return true if CHI is valid, false if else
+   */
   private boolean validateCHI(String CHI) {
     return CHI.length() == 10 &&
             CHI.matches("[0-9]+") &&
@@ -71,6 +78,12 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
             Integer.parseInt(CHI.substring(2,4)) <= 12 &&
             Integer.parseInt(CHI.substring(2,4)) >= 1;
   }
+
+  /**
+   * Converts a list written as a string into a
+   * @param strList takes a list that is written as a string
+   * @return
+   */
   public String[] convertStringToArray (String strList) {
     strList = strList.replace("]", "");
     strList = strList.replace("[", "");
@@ -152,7 +165,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
       newOrder.orderId = Integer.parseInt(response);
       newOrder.foodBox = this.chosenFoodBox;
       newOrder.orderStatus = "order has been placed";
-      this.orders.add(newOrder);
+      this.orders.put(newOrder.orderId, newOrder);
       return true;
 
     } catch (Exception e) {
@@ -171,9 +184,11 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     boolean success = false;
 
     try {
+
       String response = ClientIO.doPOSTRequest(this.endpoint + request, data );
       success = response.equals("True");
     } catch (Exception e) {
+      System.out.println("Error: Edit Order request failed");
       e.printStackTrace();
     }
 
@@ -189,11 +204,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
       String response = ClientIO.doGETRequest(endpoint + request);
       if (response.equals("True")) {
         success = true;
-        for (Order order : this.orders) {
-          if (order.orderId == orderNumber) {
-            order.orderStatus = "order has been cancelled";
-          }
-        }
+        this.orders.get(orderNumber).orderStatus = "order has been cancelled";
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -210,27 +221,21 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
       // perform request
       String response = ClientIO.doGETRequest(endpoint + request);
       if (!response.equals("-1")) {
-        for (Order o : this.orders) {
-          if (o.orderId == orderNumber) {
-            switch (response) {
-              case "0" ->  o.orderStatus = "order has been placed";
-              case "1" -> o.orderStatus = "order is packed";
-              case "2" -> o.orderStatus = "order has been dispatched";
-              case "3" -> o.orderStatus = "order has been delivered";
-              case "4" -> o.orderStatus = "order has been cancelled";
-              default -> System.out.println("Status " + response + " invalid");
-            }
-
-            success = true;
-            break;
-          }
+        switch (response) {
+          case "0" -> this.orders.get(orderNumber).orderStatus = "order has been placed";
+          case "1" -> this.orders.get(orderNumber).orderStatus = "order is packed";
+          case "2" -> this.orders.get(orderNumber).orderStatus = "order has been dispatched";
+          case "3" -> this.orders.get(orderNumber).orderStatus = "order has been delivered";
+          case "4" -> this.orders.get(orderNumber).orderStatus = "order has been cancelled";
+          default -> System.out.println("Status " + response + " invalid");
         }
+        success = true;
       }
     } catch (Exception e) {
-      e.printStackTrace();
+        e.printStackTrace();
+      }
+      return success;
     }
-    return success;
-  }
 
 
     // **UPDATE**
@@ -352,6 +357,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
     try {
       // perform request
       String response = ClientIO.doGETRequest(endpoint + request);
+      System.out.println(response);
 
       // unmarshal response
       Type listType = new TypeToken<List<MessagingFoodBox>>() {
@@ -484,11 +490,25 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
   @Override
   public boolean changeItemQuantityForPickedFoodBox(int itemId, int newQuantity) {
-    if (newQuantity <= 0) {
-      return false;
-    }
-    try {
 
+    try {
+      if (newQuantity < 0){
+        throw new IllegalArgumentException("Error: Cannot use negative quantity");
+      }
+      else if (newQuantity == 0) {
+        List <Integer> itemQuantities = new ArrayList<>();
+
+        for (foodBoxItem item : this.chosenFoodBox.contents) {
+          if (item.id != itemId) {
+            itemQuantities.add(item.quantity);
+            System.out.println(item.name + ": " + item.quantity);
+          }
+        }
+        if (itemQuantities.stream().allMatch(num-> num == 0)) {
+          System.out.println("Trying to set all items to 0");
+          return false;
+        }
+      }
       for (foodBoxItem item : this.chosenFoodBox.contents) {
         if (item.id == itemId && item.quantity != newQuantity) {
           item.quantity = newQuantity;
@@ -496,6 +516,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
         }
       }
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       e.printStackTrace();
     }
     return false;
@@ -505,7 +526,7 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
   public Collection<Integer> getOrderNumbers() {
     List <Integer> orderNumbers = new ArrayList<>();
     try {
-      for (Order order : this.orders) {
+      for (Order order : this.orders.values()) {
         orderNumbers.add(order.orderId);
       }
     } catch (Exception e) {
@@ -518,13 +539,14 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
   public Order getTargetOrder (int orderNumber) {
     Order targetOrder = null;
     try {
-      for (Order order : this.orders) {
-        if (order.orderId == orderNumber) {
-          targetOrder = order;
-          break;
-        }
+      targetOrder = this.orders.get(orderNumber);
+      System.out.println(targetOrder.orderId);
+      if (targetOrder == null) {
+        throw new NullPointerException("Target Order Not found");
       }
+
     } catch (Exception e) {
+      System.out.println("Error: Order not found");
       e.printStackTrace();
     }
     return targetOrder;
@@ -585,34 +607,44 @@ public class ShieldingIndividualClientImp implements ShieldingIndividualClient {
 
   @Override
   public boolean setItemQuantityForOrder(int itemId, int orderNumber, int newQuantity) {
-    if (newQuantity <= 0) {
-      return false;
-    }
     try {
-      for (Order order : this.orders) {
-        if (order.orderId == orderNumber) {
-          for (foodBoxItem item : order.foodBox.contents) {
-            if (item.id == itemId) {
-              if (newQuantity < item.quantity) {
-                item.quantity = newQuantity;
-                return true;
+      if (newQuantity < 0) {
+        throw new IllegalArgumentException("Error: Cannot use negative quantity");
+      } else if (newQuantity == 0) {
+        List<Integer> itemQuantities = new ArrayList<>();
 
-              }
-            }
+        for (foodBoxItem item : this.orders.get(orderNumber).foodBox.contents) {
+          if (item.id != itemId) {
+            itemQuantities.add(item.quantity);
           }
         }
+        if (itemQuantities.stream().allMatch(num -> num == 0)) {
+          return false;
+        }
+      }
+      if (!(this.orders.get(orderNumber) == null)) {
+        for (foodBoxItem item : this.orders.get(orderNumber).foodBox.contents)
+          if (item.id == itemId) {
+            if (newQuantity < item.quantity) {
+              item.quantity = newQuantity;
+              return true;
+
+            }
+          }
+
       }
     } catch (Exception e) {
-      e.printStackTrace();
+        System.out.println(e.getMessage());
+        e.printStackTrace();
+      }
+      return false;
     }
-    return false;
-  }
 
   // **UPDATE2** REMOVED METHOD getDeliveryTimeForOrder
 
   // **UPDATE**
   @Override
-  public String getClosestCateringCompany() {
+  public String getClosestCateringCompany()  {
       String request = "/getCaterers";
       try {
         // perform request

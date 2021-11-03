@@ -1,9 +1,9 @@
 shield/MyTestUtils.java
  shield.MyTestUtils
+shield/SystemTests.java
+ shield.SystemTests
 shield/ShieldingIndividualClientImpTest.java
  shield.ShieldingIndividualClientImpTest
-shield/DummyShieldingIndividualClientImpTest.java
- shield.DummyShieldingIndividualClientImpTest
 shield/CateringCompanyClientImpTest.java
  shield.CateringCompanyClientImpTest
 shield/SupermarketClientImpTest.java
