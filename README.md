@@ -1,4 +1,4 @@
-# UoE SEPP 2021 Coursework 3 skeleton
+# FoodBox Delivery System
 
 This is the final implementation for a university assignment. We were given the basic strucutre and functions to complete in the SEPP-Foodbox_Delivery_System/src/main/java/shield/ directory, as well as creating and implementing the tests in the Foodbox_Delivery_System/src/test/java/shield/ directory.
 
